@@ -1,0 +1,10 @@
+scrapy
+pandas
+requests
+beautifulsoup4
+lxml
+parsel
+w3lib
+twisted
+cryptography
+pyOpenSSL
