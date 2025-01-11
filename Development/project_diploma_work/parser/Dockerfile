@@ -9,18 +9,10 @@ RUN apt-get update && \
     libffi-dev \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
-COPY parser/requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 WORKDIR /parser
-COPY parser/ .
-CMD ["python", "parser.py"]
-
-# apache
-
-# backend
-
-# db
-
-# frontend
+COPY . .
+CMD ["python", "main.py"]
 
 

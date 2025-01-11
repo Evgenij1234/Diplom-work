@@ -1,1 +1,44 @@
+version: '3.9'
+services:
+  parser:
+    build:
+      context: ./parser
+      dockerfile: Dockerfile
+    volumes:
+      - ./parser:/parser
+    command: ["python", "main.py"]
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/backend
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ggghosttt123321
+      MYSQL_DATABASE: db_parse
+      MYSQL_USER: evgen
+      MYSQL_PASSWORD: ggghosttt123321
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
