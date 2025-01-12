@@ -29,8 +29,8 @@ docker start <container_name_or_id>
 
 
 # Команды для сборки всего проекта
-docker-compose up --build
 docker-compose down
+docker-compose up --build
 docker-compose build
 1
 
