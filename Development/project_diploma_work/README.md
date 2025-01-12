@@ -32,7 +32,7 @@ docker start <container_name_or_id>
 docker-compose up --build
 docker-compose down
 docker-compose build
-docker-compose build --no-cache
+1
 
 # Подключение докера в качестве рабочей среды через vc code
 1. плагин для работы с dev контейнерами — Dev Containers
@@ -47,4 +47,8 @@ docker system prune -a
 docker stop $(docker ps -q)
 docker rm $(docker ps -a -q) контейнеры
 docker rmi $(docker images -q) образы
+
+# Удаление кэша
+docker builder prune -a
+docker system prune -a -f
 
