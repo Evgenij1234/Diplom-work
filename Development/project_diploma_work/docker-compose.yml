@@ -1,44 +1,59 @@
-version: '3.9'
+version: '3.8'
+
 services:
-  parser:
-    build:
-      context: ./parser
-      dockerfile: Dockerfile
-    volumes:
-      - ./parser:/parser
-    command: ["python", "main.py"]
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    volumes:
-      - ./backend:/backend
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ./frontend:/frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-
-  db:
-    image: mysql:8.0
+  # Контейнер с MySQL
+  mysql:
+    image: mysql:8
+    container_name: mysql-container
     environment:
       MYSQL_ROOT_PASSWORD: ggghosttt123321
-      MYSQL_DATABASE: db_parse
+      MYSQL_DATABASE: parser
       MYSQL_USER: evgen
       MYSQL_PASSWORD: ggghosttt123321
     volumes:
-      - db_data:/var/lib/mysql
+      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - my-network
+    ports:
+      - "3306:3306"
 
-volumes:
-  db_data:
+  # Контейнер с PHP
+  php:
+    build:
+      context: ./backend/php
+    container_name: php-container
+    networks:
+      - my-network
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql
+# Контейнер с React (Frontend)
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend-container
+    networks:
+      - my-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - php
+    stdin_open: true # Для работы в интерактивном режиме (npm start)
+    tty: true        # Чтобы процесс React не завершался
+
+    # Контейнер с парсером
+  parser:
+    build:
+      context: ./parser
+    container_name: parser-container
+    networks:
+      - my-network
+    depends_on:
+      - mysql
+    volumes:
+      - ./parser:/parser
+
+networks:
+  my-network:
+    driver: bridge

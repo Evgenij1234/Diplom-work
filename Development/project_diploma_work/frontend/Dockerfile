@@ -1,19 +1,20 @@
-FROM node:18
+# Используем официальный образ Node.js 22
+FROM node:22
 
-# Рабочая директория
-WORKDIR /app
+# Устанавливаем рабочую директорию внутри контейнера в папку frontend
+WORKDIR /frontend
 
-# Копируем package.json и package-lock.json
-COPY package.json package-lock.json ./
+# Копируем файлы package.json и package-lock.json из папки frontend в контейнер
+COPY /package*.json ./
 
 # Устанавливаем зависимости
 RUN npm install
 
-# Копируем всё приложение
+# Копируем весь исходный код из папки frontend в контейнер
 COPY . .
 
-# Открываем порт 3000 для приложения
+# Открываем порт 3000 (если ваш React-приложение использует этот порт по умолчанию)
 EXPOSE 3000
 
-# Запуск dev-сервера для разработки (не билд)
+# Запускаем приложение в режиме разработки
 CMD ["npm", "start"]
