@@ -32,7 +32,6 @@ docker start <container_name_or_id>
 docker-compose down
 docker-compose up --build
 docker-compose build
-1
 
 # Подключение докера в качестве рабочей среды через vc code
 1. плагин для работы с dev контейнерами — Dev Containers
