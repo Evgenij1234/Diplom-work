@@ -1,34 +1,28 @@
 version: '3.8'
 
 services:
-  # Контейнер с MySQL
-  mysql:
-    image: mysql:8
-    container_name: mysql-container
-    environment:
-      MYSQL_ROOT_PASSWORD: ggghosttt123321
-      MYSQL_DATABASE: parser
-      MYSQL_USER: evgen
-      MYSQL_PASSWORD: ggghosttt123321
-    volumes:
-      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - my-network
-    ports:
-      - "3306:3306"
-
-  # Контейнер с PHP
   php:
     build:
       context: ./backend/php
     container_name: php-container
     networks:
       - my-network
+    volumes:
+      - ./backend/php/laravel:/var/www/html
     ports:
-      - "80:80"
+      - "8000:8000"
     depends_on:
-      - mysql
-# Контейнер с React (Frontend)
+      - db
+
+  db:
+    build:
+      context: ./backend/db
+    container_name: mysql-container
+    networks:
+      - my-network
+    ports:
+      - "3306:3306"
+
   frontend:
     build:
       context: ./frontend
@@ -39,10 +33,9 @@ services:
       - "3000:3000"
     depends_on:
       - php
-    stdin_open: true # Для работы в интерактивном режиме (npm start)
-    tty: true        # Чтобы процесс React не завершался
+    stdin_open: true
+    tty: true
 
-    # Контейнер с парсером
   parser:
     build:
       context: ./parser
@@ -50,7 +43,7 @@ services:
     networks:
       - my-network
     depends_on:
-      - mysql
+      - db
     volumes:
       - ./parser:/parser
 

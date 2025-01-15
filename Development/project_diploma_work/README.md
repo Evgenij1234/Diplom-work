@@ -24,14 +24,18 @@ docker rm <container_id_or_name>
 docker run -d --name name -p 3000:3000 my-app
 docker start <container_name_or_id>
 
-
-
-
-
 # Команды для сборки всего проекта
-docker-compose down
-docker-compose up --build
-docker-compose build
+docker-compose down - вырубить все
+docker-compose up --build - собрать и запустить
+docker-compose up -d - запустить все
+docker-compose build СОбрать все
+
+docker-compose build --no-cache - собрать с нуля все
+
+# Подключение к терминалу контейнера 
+docker exec -it <name>-container bash
+
+
 
 # Подключение докера в качестве рабочей среды через vc code
 1. плагин для работы с dev контейнерами — Dev Containers
