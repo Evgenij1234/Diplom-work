@@ -3,29 +3,32 @@ FROM php:8.2-fpm
 
 # Установка необходимых зависимостей
 RUN apt-get update && apt-get install -y \
-    zip unzip curl git && \
-    docker-php-ext-install pdo pdo_mysql
+    zip unzip curl git libxml2-dev && \
+    docker-php-ext-install pdo pdo_mysql xml
+
+RUN apt-get update && apt-get install -y \
+    libpng-dev libjpeg-dev libfreetype6-dev && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd
 
 # Установка Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 # Настройка рабочей директории
 WORKDIR /var/www/html
 
-# Копирование проекта Laravel в контейнер
-COPY ./laravel/ /var/www/html/
+# Копирование файлов проекта в контейнер
+COPY ./my_project_directory/ /var/www/html/
 
-# Установка зависимостей Laravel с помощью Composer
-RUN composer install --no-dev --optimize-autoloader
+# Установка зависимостей Symfony
+RUN composer install --optimize-autoloader
 
-# Генерация APP_KEY для Laravel
-RUN php artisan key:generate
+# Установка прав для доступа к кешу и логам
+RUN chown -R www-data:www-data /var/www/html/var && \
+    chmod -R 775 /var/www/html/var
 
-# Настройка прав на директории для Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Открытие порта для PHP-FPM
+# Открытие порта для приложения
 EXPOSE 8000
 
 # Запуск PHP-FPM
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["php-fpm"]

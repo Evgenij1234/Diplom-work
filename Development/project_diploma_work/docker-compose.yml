@@ -8,11 +8,15 @@ services:
     networks:
       - my-network
     volumes:
-      - ./backend/php/laravel:/var/www/html
+      - ./backend/php/my_project_directory:/var/www/html
     ports:
       - "8000:8000"
     depends_on:
       - db
+    environment:
+      - SYMFONY_ENV=dev
+      - DATABASE_URL=mysql://evgen:ggghosttt123321@db:3306/parser
+    command: bash -c "composer install --optimize-autoloader && php -S 0.0.0.0:8000 -t public"
 
   db:
     build:
@@ -22,6 +26,11 @@ services:
       - my-network
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ggghosttt123321
+      MYSQL_DATABASE: parser
+      MYSQL_USER: evgen
+      MYSQL_PASSWORD: ggghosttt123321
 
   frontend:
     build:
@@ -44,8 +53,14 @@ services:
       - my-network
     depends_on:
       - db
+    ports:
+      - "5000:5000" 
     volumes:
       - ./parser:/parser
+    environment:
+      FLASK_ENV: development
+    stdin_open: true
+    tty: true
 
 networks:
   my-network:
