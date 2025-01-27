@@ -11,8 +11,9 @@ services:
       - ./backend/php/my_project_directory:/var/www/html
     ports:
       - "8000:8000"
-    depends_on:
-      - db
+    #Убрать комментарий на продакщене для совместного запуска, отвечает за последовательность
+    #depends_on:
+      #- db
     environment:
       - SYMFONY_ENV=dev
       - DATABASE_URL=mysql://evgen:ggghosttt123321@db:3306/parser
@@ -40,8 +41,9 @@ services:
       - my-network
     ports:
       - "3000:3000"
-    depends_on:
-      - php
+    #Убрать комментарий на продакщене для совместного запуска, отвечает за последовательность
+    #depends_on:
+      #- php
     stdin_open: true
     tty: true
 
@@ -51,8 +53,9 @@ services:
     container_name: parser-container
     networks:
       - my-network
-    depends_on:
-      - db
+    #Убрать комментарий на продакщене для совместного запуска, отвечает за последовательность
+    #depends_on:
+     # - db
     ports:
       - "5000:5000" 
     volumes:
