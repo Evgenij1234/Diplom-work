@@ -18,4 +18,5 @@ project_name/
 
 # Полезные ссылки
 scrapy shell 'url' - парсинг из ссылки
-scrapy crawl spider_new - запуск паука из файла
+cd catching_materials
+scrapy crawl spider_main - запуск паука из файла

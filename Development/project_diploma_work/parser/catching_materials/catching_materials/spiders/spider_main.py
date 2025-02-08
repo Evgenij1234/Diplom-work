@@ -1,23 +1,18 @@
 import scrapy
+from catching_materials.items import CatchingMaterialsItem # Импорт Items
 
 class MySpider(scrapy.Spider):
-    name = "spider_new"  # Имя паука
+    name = "spider_main"  # Имя паука
     allowed_domains = ["xn--24-6kce4bvjpfdl.xn--p1ai"]  # Ограничение на домен
-    start_urls = ["https://www.xn--24-6kce4bvjpfdl.xn--p1ai/catalog"]  # Начальные URL-адреса
+    start_urls = ["https://www.xn--24-6kce4bvjpfdl.xn--p1ai/goods/227918898-dvp_dvukhstoronneye_2_5_mm_2710kh1220_mm"]  # Одна страница
 
     def parse(self, response):
-        # Извлечение данных с добавлением проверки наличия элементов
-        yield {
-            "title": response.css("title::text").get(default="No title"),
-            "url": response.url,
-            "description": response.css('meta[name="description"]::attr(content)').get(default="No description"),
-            "keywords": response.css('meta[name="keywords"]::attr(content)').get(default="No keywords"),
-        }
-
-        # Извлечение и фильтрация ссылок
-        for next_page in response.css("a::attr(href)").getall():
-            if next_page:
-                # Проверяем, что ссылка относится к указанному домену и является относительной/абсолютной
-                next_page = response.urljoin(next_page)
-                if self.allowed_domains[0] in next_page:
-                    yield response.follow(next_page, callback=self.parse)
+        # Создаем объект CatchingMaterialsItem
+        item = CatchingMaterialsItem()
+        item["name"] = response.css(".company-header-title::text").get(default="Нет названия").strip()
+        item["link"] = response.url
+        item["price"] = response.css(".bp-price.fsn::text").get(default="Нет цены").strip()
+        item["unit"] = response.css(".price-currency::text").get(default="Нет единиц измерения").strip()
+        item["characteristics"] = "".join(response.css(".limited-block.js-limited-block *::text").getall()).strip() or "Нет описания"
+       
+        yield item  # Отправляем результат

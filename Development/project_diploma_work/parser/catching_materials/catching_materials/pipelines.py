@@ -1,26 +1,28 @@
 import json
-from itemadapter import ItemAdapter
-
+import os
 
 class CatchingMaterialsPipeline:
-    def process_item(self, item, spider):
-        print(item)
-        return item
-
-
-class JsonWriterPipeline:
-    def open_spider(self, spider):
-        # Открываем файл для записи при запуске паука
-        self.file = open('output.json', 'w', encoding='utf-8')
-        self.file.write('[')  # Начало JSON-массива
-
-    def close_spider(self, spider):
-        # Закрываем файл при завершении паука
-        self.file.write(']')  # Конец JSON-массива
-        self.file.close()
+    def __init__(self):
+        # Путь для сохранения данных в папке на уровень выше
+        self.output_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'output.json')
+        
+        # Если файл существует, удаляем его, чтобы избежать накопления старых данных
+        if os.path.exists(self.output_file):
+            os.remove(self.output_file)
 
     def process_item(self, item, spider):
-        # Сохраняем каждый элемент (item) в файл
-        line = json.dumps(dict(item), ensure_ascii=False) + ',\n'
-        self.file.write(line)
+        # Преобразуем item в формат JSON
+        item_dict = {
+            'name': item.get('name'),
+            'link': item.get('link'),
+            'price': item.get('price'),
+            'unit' : item.get('unit'),
+            'characteristics': item.get('characteristics')
+        }
+
+        # Сохраняем данные в файл в формате JSON
+        with open(self.output_file, 'a', encoding='utf-8') as f:
+            json.dump(item_dict, f, ensure_ascii=False, indent=4)
+            f.write("\n")  # Каждую запись сохраняем в новой строке
+
         return item

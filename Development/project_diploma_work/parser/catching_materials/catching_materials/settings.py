@@ -4,7 +4,7 @@ SPIDER_MODULES = ["catching_materials.spiders"]
 NEWSPIDER_MODULE = "catching_materials.spiders"
 
 ITEM_PIPELINES = {
-    'catching_materials.pipelines.JsonWriterPipeline': 300,
+    'catching_materials.pipelines.CatchingMaterialsPipeline': 1,
 }
 
 # Obey robots.txt rules
