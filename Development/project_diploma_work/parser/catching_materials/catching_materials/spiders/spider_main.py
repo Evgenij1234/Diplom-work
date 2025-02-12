@@ -1,18 +1,55 @@
 import scrapy
-from catching_materials.items import CatchingMaterialsItem # Импорт Items
+from catching_materials.items import CatchingMaterialsItem
 
 class MySpider(scrapy.Spider):
-    name = "spider_main"  # Имя паука
-    allowed_domains = ["xn--24-6kce4bvjpfdl.xn--p1ai"]  # Ограничение на домен
-    start_urls = ["https://www.xn--24-6kce4bvjpfdl.xn--p1ai/goods/227918898-dvp_dvukhstoronneye_2_5_mm_2710kh1220_mm"]  # Одна страница
-
+    name = "spider_main"
+    allowed_domains = ["baza.124bt.ru"]  # Исправлено: указать только домен без пути
+    start_urls = ["https://baza.124bt.ru/"]  # Стартовая страница (например, каталог)
+    custom_settings = {
+        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    }
+    
     def parse(self, response):
+        # Парсим все ссылки на страницы, содержащие товары
+        product_links = response.css("a::attr(href)").getall()  # Используем класс для ссылки на товар
+        self.logger.info(f'Завершен парсинг страницы: {response.url}')
+        
+        # Фильтруем ссылки для страниц товаров
+        product_links = [link for link in product_links if '/product/' in link]  # Добавили проверку на /product/ в ссылке
+        
+        # Для каждой ссылки на товар вызываем parse_product
+        for link in product_links:
+            # Передаем категорию через meta
+            yield response.follow(link, self.parse_product)
+
+        # Если есть пагинация (следующие страницы каталога)
+        next_page = response.css(".pagination-next a::attr(href)").get()
+        if next_page:
+            yield response.follow(next_page, self.parse)
+
+    def parse_product(self, response):
         # Создаем объект CatchingMaterialsItem
         item = CatchingMaterialsItem()
-        item["name"] = response.css(".company-header-title::text").get(default="Нет названия").strip()
+        
+        # Извлекаем категорию с самой страницы товара (например, из элемента с классом 'product-category')
+        category_name = response.css('p em a::text').get(default="").strip() or ""
+        item["category"] = category_name
+        
+        # Обработка названия товара
+        item["name"] = response.css('[itemprop="name"]::text').get(default="").strip() or ""
+        
+        # Записываем ссылку на товар
         item["link"] = response.url
-        item["price"] = response.css(".bp-price.fsn::text").get(default="Нет цены").strip()
-        item["unit"] = response.css(".price-currency::text").get(default="Нет единиц измерения").strip()
-        item["characteristics"] = "".join(response.css(".limited-block.js-limited-block *::text").getall()).strip() or "Нет описания"
-       
-        yield item  # Отправляем результат
+
+        # Обработка цены и единицы измерения
+        item["price"] = response.css('.price.nowrap::text').get(default="").strip() or ""
+        item["unit"] = response.css(".ruble::text").get(default="шт").strip() or "шт"
+        
+        # Обработка характеристик товара
+        item["characteristics"] = "".join(response.css(".features ::text").getall()).strip() or "Нет описания"
+        
+        # Логируем информацию для отладки
+        self.logger.info(f"Собран товар: {item['name']} - {item['price']}")
+
+        # Отправляем item
+        yield item
