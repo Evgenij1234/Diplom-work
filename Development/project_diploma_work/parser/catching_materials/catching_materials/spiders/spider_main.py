@@ -1,25 +1,38 @@
 import scrapy
 from catching_materials.items import CatchingMaterialsItem
+from scrapy_playwright.page import PageMethod
 
 class MySpider(scrapy.Spider):
     name = "spider_main"
-    allowed_domains = ["baza.124bt.ru"]  # Исправлено: указать только домен без пути
-    start_urls = ["https://baza.124bt.ru/"]  # Стартовая страница (например, каталог)
+    allowed_domains = ["baza.124bt.ru"]
+    start_urls = ["https://baza.124bt.ru/"]
     custom_settings = {
-        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+        'PLAYWRIGHT_LAUNCH_OPTIONS': {'headless': True},  # Установите True для безголового режима
     }
-    
+
+    def start_requests(self):
+        # Начинаем с первой страницы, прокрутка будет применяться ко всем страницам
+        yield scrapy.Request(
+            "https://baza.124bt.ru/", 
+            callback=self.parse, 
+            meta={"playwright": True}
+        )
+
     def parse(self, response):
+        # Прокрутка страницы, если это необходимо!!!!!!!!!!!!!!!!!!!!!!!!тут подумать, возможно логичнее будет скролить до определенного тега!
+        if response.meta.get('playwright', False):
+            yield from self.scroll_page(response)
+
         # Парсим все ссылки на страницы, содержащие товары
-        product_links = response.css("a::attr(href)").getall()  # Используем класс для ссылки на товар
+        product_links = response.css("a::attr(href)").getall()
         self.logger.info(f'Завершен парсинг страницы: {response.url}')
         
         # Фильтруем ссылки для страниц товаров
-        product_links = [link for link in product_links if '/product/' in link]  # Добавили проверку на /product/ в ссылке
+        product_links = [link for link in product_links if '/product/' in link]  # Проверяем на /product/
         
         # Для каждой ссылки на товар вызываем parse_product
         for link in product_links:
-            # Передаем категорию через meta
             yield response.follow(link, self.parse_product)
 
         # Если есть пагинация (следующие страницы каталога)
@@ -27,11 +40,25 @@ class MySpider(scrapy.Spider):
         if next_page:
             yield response.follow(next_page, self.parse)
 
+    def scroll_page(self, response): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!тут подумать, возможно логичнее будет скролить до определенного тега!
+        """Метод для прокрутки страницы."""
+        return scrapy.Request(
+            response.url,  # Повторно загружаем текущую страницу
+            callback=self.parse, 
+            meta={
+                "playwright": True,
+                "playwright_page_methods": [
+                    PageMethod('evaluate', 'window.scrollTo(0, document.body.scrollHeight)'),  # Прокрутка страницы до конца
+                    PageMethod('evaluate', 'window.scrollBy(0, 1000)')  # Прокручиваем вниз на 1000px
+                ]
+            }
+        )
+
     def parse_product(self, response):
         # Создаем объект CatchingMaterialsItem
         item = CatchingMaterialsItem()
         
-        # Извлекаем категорию с самой страницы товара (например, из элемента с классом 'product-category')
+        # Извлекаем категорию с самой страницы товара
         category_name = response.css('p em a::text').get(default="").strip() or ""
         item["category"] = category_name
         

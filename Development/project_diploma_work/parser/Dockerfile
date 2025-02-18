@@ -10,14 +10,35 @@ RUN apt-get update && \
     zlib1g-dev \
     libffi-dev \
     libssl-dev \
+    libglib2.0-0 \
+    libnss3 \
+    libnspr4 \
+    libdbus-1-3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libatspi2.0-0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxext6 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libxkbcommon0 \
+    libasound2 \
+    libcups2 \
+    libpango-1.0-0 \
+    libcairo2 \
     && rm -rf /var/lib/apt/lists/*
 
 # Установка зависимостей Python
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Установка Flask
 RUN pip install flask
+
+# Установка chromium
+RUN playwright install chromium
 
 # Установка рабочей директории
 WORKDIR /parser
@@ -30,4 +51,3 @@ COPY run_scrapy.py /parser/run_scrapy.py
 
 # Запуск сервера Flask
 CMD ["python", "run_scrapy.py"]
-

@@ -6,6 +6,16 @@ NEWSPIDER_MODULE = "catching_materials.spiders"
 ITEM_PIPELINES = {
     'catching_materials.pipelines.CatchingMaterialsPipeline': 1,
 }
+# playwright
+DOWNLOAD_HANDLERS = {
+    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+}
+PLAYWRIGHT_LAUNCH_OPTIONS = {
+    'headless': True,
+    'args': ['--no-sandbox', '--disable-gpu', '--disable-software-rasterizer'],
+}
+
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY =  False

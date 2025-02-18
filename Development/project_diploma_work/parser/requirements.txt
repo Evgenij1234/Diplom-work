@@ -9,3 +9,4 @@ twisted
 cryptography
 pyOpenSSL
 flask
+scrapy-playwright
