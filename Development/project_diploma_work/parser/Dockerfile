@@ -1,29 +1,33 @@
-# Используем Python 3.12
+# parser
 FROM python:3.12.8-slim-bullseye
 
-# Установка зависимостей системы
-RUN apt-get update && apt-get install -y \
+# Установка зависимостей
+RUN apt-get update && \
+    apt-get install -y \
     python3-dev \
     libxml2-dev \
     libxslt1-dev \
     zlib1g-dev \
     libffi-dev \
     libssl-dev \
-    wget \
-    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Установка Playwright и его зависимостей
-RUN pip install --no-cache-dir playwright scrapy scrapy-playwright flask
+# Установка зависимостей Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Установка браузеров для Playwright
-RUN playwright install --with-deps chromium
+# Установка Flask
+RUN pip install flask
 
+# Установка рабочей директории
 WORKDIR /parser
 
+# Копирование файлов проекта
 COPY . .
 
-# Flask сервер
+# Создание простого Flask сервера
 COPY run_scrapy.py /parser/run_scrapy.py
 
+# Запуск сервера Flask
 CMD ["python", "run_scrapy.py"]
+
