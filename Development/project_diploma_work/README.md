@@ -11,6 +11,7 @@ Linux Ubuntu 24.04.1 LTS
 2. Docker-Compose
 3. vim  
 
+sudo systemctl start docker
 # Команды для сборки всего проекта
 docker-compose down - вырубить все
 docker-compose up --build - собрать и запустить
