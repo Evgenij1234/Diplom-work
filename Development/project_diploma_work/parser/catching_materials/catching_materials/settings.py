@@ -9,8 +9,8 @@ ITEM_PIPELINES = {
     'catching_materials.pipelines.CatchingMaterialsPipeline': 1,
 }
 ROBOTSTXT_OBEY =  False
-CONCURRENT_REQUESTS = 3
-DOWNLOAD_DELAY = 3
+CONCURRENT_REQUESTS = 1
+DOWNLOAD_DELAY = 1
 FEED_EXPORT_ENCODING = "utf-8"
 
 # playwright
