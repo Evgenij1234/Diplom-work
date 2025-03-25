@@ -1,7 +1,5 @@
 import scrapy
 from catching_materials.items import CatchingMaterialsItem
-from scrapy_playwright.page import PageMethod
-import asyncio
 
 class MySpider(scrapy.Spider):
     name = "spider_main"
@@ -10,7 +8,15 @@ class MySpider(scrapy.Spider):
         'CONCURRENT_REQUESTS': 30,  # Максимум 30 одновременных запросов
         'DOWNLOAD_DELAY': 1,  # Задержка 1 секунда между запросами
     }
-    
+
+    #Параметры сбора
+    category = 'p em a ::text'
+    name = '[itemprop="name"]::text'
+    price = '.price.nowrap ::text'
+    unit = '.ruble ::text'
+    characteristics = '.features ::text"'
+
+
     # Множество для хранения уже посещенных ссылок
     visited_urls = set()
 
@@ -35,12 +41,12 @@ class MySpider(scrapy.Spider):
         if '/product/' in response.url:
             # Это страница продукта, собираем данные
             item = CatchingMaterialsItem()
-            item["category"] = response.css('p em a::text').get(default="").strip() or ""
+            item["category"] = response.css('p em a ::text').get(default="").strip() or ""
             item["name"] = response.css('[itemprop="name"]::text').get(default="").strip() or ""
             item["link"] = response.url
-            item["price"] = response.css('.price.nowrap::text').get(default="").strip() or ""
-            item["unit"] = response.css(".ruble::text").get(default="шт").strip() or "шт"
-            item["characteristics"] = "".join(response.css(".features ::text").getall()).strip() or "Нет описания"
+            item["price"] = response.css('.price.nowrap ::text').get(default="").strip() or ""
+            item["unit"] = response.css('.ruble ::text').get(default="шт").strip() or "шт"
+            item["characteristics"] = "".join(response.css('.features ::text').getall()).strip() or "Нет описания"
             self.logger.info(f"Собран товар: {item['name']} - {item['price']}")
             yield item
         else:
