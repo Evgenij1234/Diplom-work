@@ -7,6 +7,24 @@ scrapy shell 'url' - парсинг из ссылки
 cd catching_materials
 scrapy crawl spider_main - запуск паука из файла
 
+
+С параметрами:
+
+./dockerRun.sh 
+cd catching_materials
+scrapy crawl spider_main \
+    -a start_url="https://baza.124bt.ru" \
+    -a allowed_domains="baza.124bt.ru" \
+    -a product_path="/product/" \
+    -a category_selector="p em a::text" \
+    -a name_selector='[itemprop="name"]::text' \
+    -a price_selector=".price.nowrap::text" \
+    -a unit_selector=".ruble::text" \
+    -a block_selector="table.features tbody" \
+    -a key_selector="tr ::text" \
+    -a value_selector="tr ::text" 
+
+
 # Правила парсинга
 
 1. Селекторы начинаются с .

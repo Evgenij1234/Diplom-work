@@ -11,15 +11,14 @@ class CatchingMaterialsPipeline:
     def process_item(self, item, spider):
         item_dict = {}
 
-        def clean_description(text):
-            if text:
-                text = ' '.join(text.split()) 
-            return text.strip() if text else text
-        item_dict['category'] = item['category']
-        item_dict['name'] = item['name']
-        item_dict['price'] = item['price']
+        item_dict['category'] = item.get('category', 'Не указана категория')
+        item_dict['name'] = item.get('name', 'Не указано название')
+        item_dict['price'] = item.get('price', 'Не указана цена')
         item_dict['unit'] = item.get('unit', 'Не указана единица измерения')
-        item_dict['characteristics'] = clean_description(item.get('characteristics', 'Нет описания'))
+        
+        # Характеристики
+        item_dict['characteristics'] = item.get('characteristics', {'Нет характеристики': 'Нез значения'})
+
         item_dict['link'] = item.get('link', 'Нет ссылки')
         self.item_count += 1
         if self.item_count > 1:
