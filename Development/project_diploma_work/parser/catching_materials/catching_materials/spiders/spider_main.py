@@ -53,17 +53,40 @@ class MySpider(scrapy.Spider):
             item["price"] = response.css(self.price_selector).get(default="").strip()
             item["unit"] = response.css(self.unit_selector).get(default="уч.ед.").strip()
 
-            # Обход блока html для поиска характеристик (с учетом вложенности)
             characteristics_dict = {}
-            for block in response.css(self.block_selector):
-                key = block.css(self.key_selector).get(default="").strip()
-                value = block.css(self.value_selector).get(default="").strip()
-                if key:
-                    characteristics_dict[key] = value
+            table = response.xpath(self.block_selector)
+        
+            if table:
+                # Извлекаем ВСЕ ключи и значения из таблицы
+                keys = table.xpath(self.key_selector + '//text()[normalize-space()]').getall()
+                values = table.xpath(self.value_selector + '//text()[normalize-space()]').getall()
 
-            item["characteristics"] = characteristics_dict or {"Нет описания": ""}
-            item["link"] = response.url  
-            self.logger.info(f"Собран товар: {item['name']}")
+                #Логи
+                self.logger.info(f"Ключи: {keys}")
+                self.logger.info(f"Очищенные ключи: {[key.strip() for key in keys]}")
+                self.logger.info(f"значения {values}")
+                self.logger.info(f"Очищенные значения {[value.strip() for value in values]}")
+
+
+
+                # Сопоставляем их попарно
+                for key, value in zip(keys, values):
+                    key = key.strip()
+                    value = value.strip()
+                    if key and value:
+                        characteristics_dict[key] = value
+
+
+
+
+
+
+
+            else:
+                self.logger.warning(f"Таблица характеристик не найдена по селектору: {self.block_selector}")
+
+            item["characteristics"] = characteristics_dict or {"Нет данных": ""}
+            item["link"] = response.url
             yield item
         else:
             self.logger.info(f"Пропущена страница: {response.url} (не содержит {self.product_path})")

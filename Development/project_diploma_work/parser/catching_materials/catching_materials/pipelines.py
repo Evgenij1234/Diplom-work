@@ -17,7 +17,7 @@ class CatchingMaterialsPipeline:
         item_dict['unit'] = item.get('unit', 'Не указана единица измерения')
         
         # Характеристики
-        item_dict['characteristics'] = item.get('characteristics', {'Нет характеристики': 'Нез значения'})
+        item_dict['characteristics'] = item.get('characteristics', {'Нет характеристик': 'Нез значения'})
 
         item_dict['link'] = item.get('link', 'Нет ссылки')
         self.item_count += 1
