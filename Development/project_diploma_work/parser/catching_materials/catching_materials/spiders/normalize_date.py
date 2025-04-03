@@ -1,6 +1,5 @@
 
 def clean_items(items):
-    """Удаляет отдельные запятые, но сохраняет их внутри значений"""
     cleaned = []
     for item in items:
         item = item.strip()
@@ -13,7 +12,3 @@ def clean_items(items):
         else:
             cleaned.append(item)
     return cleaned
-
-# Применяем к обоим спискам
-#keys = clean_items(table.xpath(self.key_selector + '//text()').getall())
-#values = clean_items(table.xpath(self.value_selector + '//text()').getall())

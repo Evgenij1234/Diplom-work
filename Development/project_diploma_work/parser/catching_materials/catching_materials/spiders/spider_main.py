@@ -58,26 +58,26 @@ class MySpider(scrapy.Spider):
             table = response.xpath(self.block_selector)
         
             if table:
-                # Извлекаем ВСЕ ключи и значения из таблицы
-                keys = clean_items(table.xpath(self.key_selector + '//text()[normalize-space()]').getall())
+                # Извлекаем ключи и значения из блока 
+                keys = clean_items(table.xpath(self.key_selector + '//text()[normalize-space()]').getall()) 
                 values = clean_items(table.xpath(self.value_selector + '//text()[normalize-space()]').getall())
 
                 #Логи
-                self.logger.info(f"Ключи: {keys}")
-                self.logger.info(f"Очищенные ключи: {[key.strip() for key in keys]}")
-                self.logger.info(f"значения {values}")
-                self.logger.info(f"Очищенные значения {[value.strip() for value in values]}")
+                self.logger.info(f"Ключи: {keys} \n")
+                self.logger.info(f"Значения {values} \n")
                 # Сопоставляем их попарно
                 for key, value in zip(keys, values):
                     key = key.strip()
                     value = value.strip()
                     if key and value:
                         characteristics_dict[key] = value
+                self.logger.info(f"Характеристики: {characteristics_dict} \n")
             else:
-                self.logger.warning(f"Таблица характеристик не найдена по селектору: {self.block_selector}")
+                self.logger.info(f"Таблица характеристик не найдена по селектору: {self.block_selector}")
 
             item["characteristics"] = characteristics_dict or {"Нет данных": ""}
             item["link"] = response.url
+            self.logger.info(f"Все вместе: {item} \n\n")
             yield item
         else:
             self.logger.info(f"Страница не содержит данных: {response.url} (не содержит {self.product_path})")

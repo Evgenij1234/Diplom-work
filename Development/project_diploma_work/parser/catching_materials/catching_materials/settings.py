@@ -4,7 +4,12 @@ SPIDER_MODULES = ["catching_materials.spiders"]
 NEWSPIDER_MODULE = "catching_materials.spiders"
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 PLAYWRIGHT_LAUNCH_OPTIONS = {'headless': True}
-LOG_LEVEL = 'DEBUG'
+# Базовые настройки логирования
+LOG_LEVEL = 'INFO'
+LOG_FORMAT = '%(asctime)s [%(levelname)s] %(message)s'
+LOG_DATEFORMAT = '%H:%M:%S'
+
+
 ITEM_PIPELINES = {
     'catching_materials.pipelines.CatchingMaterialsPipeline': 1,
 }
