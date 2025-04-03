@@ -1,11 +1,12 @@
 import scrapy
 from catching_materials.items import CatchingMaterialsItem
+from .normalize_date import clean_items
 
 class MySpider(scrapy.Spider):
     name = "spider_main"
     allowed_domains = []
     custom_settings = {
-        'CONCURRENT_REQUESTS': 1, #в продакшене увеличить до 30
+        'CONCURRENT_REQUESTS': 30, #в продакшене увеличить до 30
         'DOWNLOAD_DELAY': 1.0,
     }
 
@@ -44,44 +45,34 @@ class MySpider(scrapy.Spider):
             if full_url not in self.visited_urls:
                 self.visited_urls.add(full_url)
                 yield response.follow(full_url, self.parse_product)
-
+    #Сбор данных о стройматериалах с целевой страницы
     def parse_product(self, response):
         if self.product_path in response.url:
             item = CatchingMaterialsItem()
-            item["category"] = response.css(self.category_selector).get(default="").strip()
-            item["name"] = response.css(self.name_selector).get(default="").strip()
-            item["price"] = response.css(self.price_selector).get(default="").strip()
-            item["unit"] = response.css(self.unit_selector).get(default="уч.ед.").strip()
+            item["category"] = response.css(self.category_selector + '::text').get(default="").strip()
+            item["name"] = response.css(self.name_selector  + '::text').get(default="").strip()
+            item["price"] = response.css(self.price_selector  + '::text').get(default="").strip()
+            item["unit"] = response.css(self.unit_selector  + '::text').get(default="уч.ед.").strip()
 
             characteristics_dict = {}
             table = response.xpath(self.block_selector)
         
             if table:
                 # Извлекаем ВСЕ ключи и значения из таблицы
-                keys = table.xpath(self.key_selector + '//text()[normalize-space()]').getall()
-                values = table.xpath(self.value_selector + '//text()[normalize-space()]').getall()
+                keys = clean_items(table.xpath(self.key_selector + '//text()[normalize-space()]').getall())
+                values = clean_items(table.xpath(self.value_selector + '//text()[normalize-space()]').getall())
 
                 #Логи
                 self.logger.info(f"Ключи: {keys}")
                 self.logger.info(f"Очищенные ключи: {[key.strip() for key in keys]}")
                 self.logger.info(f"значения {values}")
                 self.logger.info(f"Очищенные значения {[value.strip() for value in values]}")
-
-
-
                 # Сопоставляем их попарно
                 for key, value in zip(keys, values):
                     key = key.strip()
                     value = value.strip()
                     if key and value:
                         characteristics_dict[key] = value
-
-
-
-
-
-
-
             else:
                 self.logger.warning(f"Таблица характеристик не найдена по селектору: {self.block_selector}")
 
@@ -89,5 +80,5 @@ class MySpider(scrapy.Spider):
             item["link"] = response.url
             yield item
         else:
-            self.logger.info(f"Пропущена страница: {response.url} (не содержит {self.product_path})")
-
+            self.logger.info(f"Страница не содержит данных: {response.url} (не содержит {self.product_path})")
+            yield response.follow(response.url, self.parse, dont_filter=True)

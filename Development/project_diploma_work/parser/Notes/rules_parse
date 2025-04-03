@@ -1,0 +1,54 @@
+# parser
+
+./dockerRun.sh - остановк, удаление старого, создание нового образа, запуск, подключение к консоле
+scrapy crawl spider_main - запуск паука из файла
+
+С параметрами:
+
+./dockerRun.sh 
+
+cd catching_materials
+scrapy crawl spider_main \
+    -a start_url='https://baza.124bt.ru' \
+    -a allowed_domains='baza.124bt.ru' \
+    -a product_path='/product/' \
+    -a category_selector="p em a" \
+    -a name_selector='[itemprop="name"]' \
+    -a price_selector='.price.nowrap' \
+    -a unit_selector='.ruble' \
+    -a block_selector='//table[@id="product-features"]' \
+    -a key_selector='.//td[@class="name"]' \
+    -a value_selector='.//td[@class="value"]'
+
+Правила ввода идентификаторов сайта, параметры start_url, allowed_domains, product_path:
+1. start_url - Ссылка на головную страницу сайта имеет вид https://domain.com
+2. allowed_domains - ограничение на домен, имеет вид domain.com
+3. product_path - определяет целевую страницу для сбора данных, имеет вид /product/
+
+Правила для параметров category_selector, name_selector, price_selector, unit_selector:
+1. tag - Найти все теги <tag>
+2. #id - Найти элемент с id="id"
+3. .class - Найти элементы с классом class
+4. tag.class - Найти <tag> с классом class
+5. tag[attr="value"] - Найти <tag> с атрибутом attr="value"
+6. tag:nth-child(n) - Получить значение из элемента n по порядку, который вложен в tag.
+7. tag1 tag2 - тег2 вложеный в тег 1 - вложеные теги
+8. .class1 .class2 класс2 вложеный в класс 1 0 вложеные классы
+9. tag1, tag2 - несколько тегов
+10. class1, class2- несколько классов
+11. .class1.class2 - один элемент имеет несколько классов
+
+
+
+Правила для параметров block_selector, key_selector, value_selector:
+1. //tag - Найти все теги <tag> на странице
+2. //*[@id='id'] - Найти элемент с id="id"
+3. //*[contains(@class, 'class')] - Найти элементы с классом class
+4. //tag[contains(@class, 'class')] - Найти <tag> с классом class
+5. //tag[@attr='value'] - Найти <tag> с атрибутом attr="value"
+6. (//tag)[n] - Получить n-ый элемент внутри tag
+7. //tag1//tag2 - Найти tag2, вложенный в tag1
+8. //*[contains(@class, 'class1')]//*[contains(@class, 'class2')] - Найти class2, вложенный в class1
+9. //tag1 | //tag2 - Найти несколько тегов tag1, tag2
+10. //*[contains(@class, 'class1')] | //*[contains(@class, 'class2')] - Найти несколько классов .class1, .class2
+11. //*[contains(@class, 'class1') and contains(@class, 'class2')] - Найти элемент с несколькими классами .class1.class2
