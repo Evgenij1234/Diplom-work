@@ -1,6 +1,5 @@
 import scrapy
 from catching_materials.items import CatchingMaterialsItem
-from .normalize_date import clean_items
 
 class MySpider(scrapy.Spider):
     name = "spider_main"
@@ -49,27 +48,31 @@ class MySpider(scrapy.Spider):
     def parse_product(self, response):
         if self.product_path in response.url:
             item = CatchingMaterialsItem()
-            item["category"] = response.css(self.category_selector + '::text').get(default="").strip()
-            item["name"] = response.css(self.name_selector  + '::text').get(default="").strip()
-            item["price"] = response.css(self.price_selector  + '::text').get(default="").strip()
-            item["unit"] = response.css(self.unit_selector  + '::text').get(default="уч.ед.").strip()
+            item["category"] = response.css(self.category_selector + ' ::text').get(default="").strip()
+            item["name"] = response.css(self.name_selector  + ' ::text').get(default="").strip()
+            item["price"] = response.css(self.price_selector  + ' ::text').get(default="").strip()
+            item["unit"] = response.css(self.unit_selector  + ' ::text').get(default="уч.ед.").strip()
 
             characteristics_dict = {}
             table = response.xpath(self.block_selector)
-        
+            # Обработка характеристик
             if table:
                 # Извлекаем ключи и значения из блока 
-                keys = clean_items(table.xpath(self.key_selector + '//text()[normalize-space()]').getall()) 
-                values = clean_items(table.xpath(self.value_selector + '//text()[normalize-space()]').getall())
-
+                keys = [
+                    ' '.join(item.xpath('.//text()[normalize-space()]').getall()).strip()
+                    for item in table.xpath(self.key_selector)]
+                values = [
+                    ' '.join(item.xpath('.//text()[normalize-space()]').getall()).strip()
+                    for item in table.xpath(self.value_selector)
+]
                 #Логи
                 self.logger.info(f"Ключи: {keys} \n")
                 self.logger.info(f"Значения {values} \n")
                 # Сопоставляем их попарно
                 for key, value in zip(keys, values):
-                    key = key.strip()
-                    value = value.strip()
                     if key and value:
+                        key = key.strip()
+                        value = value.strip()
                         characteristics_dict[key] = value
                 self.logger.info(f"Характеристики: {characteristics_dict} \n")
             else:
