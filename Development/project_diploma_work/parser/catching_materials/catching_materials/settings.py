@@ -6,7 +6,7 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 PLAYWRIGHT_LAUNCH_OPTIONS = {'headless': True}
 COOKIES_ENABLED = True
 # Базовые настройки логирования
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'DEBUG'
 LOG_FORMAT = '%(asctime)s [%(levelname)s] %(message)s'
 LOG_DATEFORMAT = '%H:%M:%S'
 

@@ -2,8 +2,8 @@
 
 
 1. https://baza.124bt.ru
-2. 
-3. 
+2. https://obi.ru
+3. https://s-stroy.ru
 4. 
 5.
 
@@ -26,18 +26,31 @@ scrapy crawl spider_main \
 
 2. cd catching_materials
 scrapy crawl spider_main \
-    -a start_url='https://krasnoyarsk.lemanapro.ru' \
-    -a allowed_domains='krasnoyarsk.lemanapro.ru' \
+    -a start_url='https://obi.ru' \
+    -a allowed_domains='obi.ru' \
+    -a product_path='/products/' \
+    -a category_selector='ul.dPLk0 > li:nth-child(4) > a > span[itemprop="name"]' \
+    -a name_selector='._3LdDm' \
+    -a price_selector='._3IeOW' \
+    -a unit_selector='._3SDdj' \
+    -a block_selector='//div[@class="_1qc6Q"]' \
+    -a key_selector='.//dt[@class="ImGAo"]' \
+    -a value_selector='.//dd[@class="_gJlB"]'
+
+
+3. cd catching_materials
+scrapy crawl spider_main \
+    -a start_url='https://s-stroy.ru' \
+    -a allowed_domains='s-stroy.ru' \
     -a product_path='/product/' \
-    -a category_selector=".jSdescdudT_pdp:nth-child(5)" \
-    -a name_selector='.t12nw7s2_pdp' \
-    -a price_selector='.n185589t_pdp.n1uppoma_pdp' \
-    -a unit_selector='.n185589t_pdp.nc4fhqa_pdp' \
-    -a block_selector='//div[@class="csij02o_pdp"]' \
-    -a key_selector='.//div[@class="dsqv1xm_pdp"]' \
-    -a value_selector='.//div[@class="v17yx9hk_pdp"]'
+    -a category_selector='ul.dPLk0 > li:nth-child(4) > a > span[itemprop="name"]' \
+    -a name_selector='._3LdDm' \
+    -a price_selector='._3IeOW' \
+    -a unit_selector='._3SDdj' \
+    -a block_selector='//div[@class="_1qc6Q"]' \
+    -a key_selector='.//dt[@class="ImGAo"]' \
+    -a value_selector='.//dd[@class="_gJlB"]'
 
 
-3.
 4. 
 5. 

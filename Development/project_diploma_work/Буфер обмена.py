@@ -1,14 +1,11 @@
-./dockerRun.sh 
-
-cd catching_materials
-scrapy crawl spider_main \
-    -a start_url='https://krasnoyarsk.lemanapro.ru/' \
-    -a allowed_domains='krasnoyarsk.lemanapro.ru' \
-    -a product_path='/product/' \
-    -a category_selector=".jSdescdudT_pdp:nth-child(5)" \
-    -a name_selector='.t12nw7s2_pdp' \
-    -a price_selector='.price.nowrap' \
-    -a unit_selector='.ruble' \
-    -a block_selector='//table[@id="product-features"]' \
-    -a key_selector='.//td[@class="name"]' \
-    -a value_selector='.//td[@class="value"]'
+    def parse(self, response):
+        product_links = response.css("a::attr(href)").getall()
+        for link in product_links:
+            # Добавленная проверка (единственное изменение)
+            if link and link.startswith(('tel:', 'mailto:', 'javascript:', 'whatsapp:', 'callto:')):
+                continue
+                
+            full_url = response.urljoin(link)
+            if full_url not in self.visited_urls:
+                self.visited_urls.add(full_url)
+                yield response.follow(full_url, self.parse_product)

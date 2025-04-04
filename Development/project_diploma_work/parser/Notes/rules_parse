@@ -3,8 +3,12 @@
 ./dockerRun.sh - остановк, удаление старого, создание нового образа, запуск, подключение к консоле
 scrapy crawl spider_main - запуск паука из файла
 
-С параметрами:
+Проверка доступности сайта из скрапи по домену:
+scrapy shell 'https://www.xn--24-6kce4bvjpfdl.xn--p1ai/'
+Попробовать открыть в браузере:
+ view(response)
 
+С параметрами:
 ./dockerRun.sh 
 
 cd catching_materials
