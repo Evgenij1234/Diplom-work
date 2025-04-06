@@ -43,13 +43,13 @@ scrapy crawl spider_main \
     -a start_url='https://s-stroy.ru' \
     -a allowed_domains='s-stroy.ru' \
     -a product_path='/product/' \
-    -a category_selector='ul.dPLk0 > li:nth-child(4) > a > span[itemprop="name"]' \
-    -a name_selector='._3LdDm' \
-    -a price_selector='._3IeOW' \
-    -a unit_selector='._3SDdj' \
-    -a block_selector='//div[@class="_1qc6Q"]' \
-    -a key_selector='.//dt[@class="ImGAo"]' \
-    -a value_selector='.//dd[@class="_gJlB"]'
+    -a category_selector='div.styles_list__bel0I > div.styles_item__ogzkm:nth-last-child(2) a.styles_textLink__wrap__zShba div.styles_text--primary__UjU_1' \
+    -a name_selector='.styles_title__hhoA4' \
+    -a price_selector='.styles_rubleBase__EaZAE.styles_price__rubleBase__xRBqZ' \
+    -a unit_selector='.styles_centBase__8oK0Y.styles_currency__DUTSc.styles_price__centBase__qmEpj' \
+    -a block_selector='//div[@class="styles_column__ro9aH"]' \
+    -a key_selector='.//div[@class="styles_labelWrap__ByWFg"]' \
+    -a value_selector='.//div[ contains(@class, "styles_text--default__yYra8") and contains(@class, "styles_text--regular__mUH83") and contains(@class, "styles_value__Ojowr")]'
 
 
 4. 

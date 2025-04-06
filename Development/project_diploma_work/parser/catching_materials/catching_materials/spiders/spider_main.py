@@ -5,7 +5,7 @@ class MySpider(scrapy.Spider):
     name = "spider_main"
     allowed_domains = []
     custom_settings = {
-        'CONCURRENT_REQUESTS': 30, #в продакшене увеличить до 30
+        'CONCURRENT_REQUESTS': 5, #в продакшене увеличить до 30
         'DOWNLOAD_DELAY': 1.0,
     }
 

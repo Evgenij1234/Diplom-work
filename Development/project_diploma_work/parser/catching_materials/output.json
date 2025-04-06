@@ -1,22 +1,42 @@
 [
 {
-    "category": "",
-    "name": "",
-    "price": "",
-    "unit": "уч.ед.",
+    "category": "Гибкая черепица",
+    "name": "Планка карнизная для мягкой кровли Grand line 0,45 мм PE с пленкой RAL 6005, 100х60х2000 мм",
+    "price": "726",
+    "unit": "₽",
     "characteristics": {
-        "Нет данных": ""
+        "Бренд": "GRAND LINE",
+        "Тип товара": "Планки",
+        "Длина, мм": "2000",
+        "Толщина, мм": "0,45",
+        "Цвет товара": "Зеленый",
+        "Область применения": "Скатные кровли",
+        "Производитель": "GRAND LINE",
+        "Страна-производитель": "Россия",
+        "Материал": "Металл",
+        "Гарантия": "10 лет",
+        "Поверхность": "Глянцевая",
+        "Основа": "Сталь",
+        "Покрытие_ДС": "Полиэстер"
     },
-    "link": "https://s-stroy.ru/product/plity_layt_batts_skandik_up_12_plit_0_288_m3_rockwool_800_kh_600_kh_50_mm/"
+    "link": "https://s-stroy.ru/product/planka_karniznaya_dlya_myagkoy_krovli_grand_line_0_45_mm_pe_s_plenkoy_ral_6005_100kh60kh2000_mm/"
 },
 {
-    "category": "",
-    "name": "",
-    "price": "",
-    "unit": "уч.ед.",
+    "category": "Изоляционные оклады",
+    "name": "Оклад Fakro EHN-AT Thermo 940х1400 мм",
+    "price": "23 350",
+    "unit": "₽",
     "characteristics": {
-        "Нет данных": ""
+        "Бренд": "FAKRO",
+        "Тип товара": "Оклад гидро-, теплоизоляционный",
+        "Ширина, мм": "940",
+        "Высота , мм": "1400",
+        "Область применения": "Для пластиковых и деревянных мансардных окон",
+        "Производитель": "FAKRO",
+        "Страна-производитель": "Польша",
+        "Материал": "Алюминий",
+        "Основа": "Алюминий"
     },
-    "link": "https://s-stroy.ru/product/mansardnoe_okno_fakro_ahrd_a2_ruchka_sverkhu_55kh98_sm/"
+    "link": "https://s-stroy.ru/product/oklad_fakro_ehn_at_thermo_940kh1400_mm/"
 }
 ]
