@@ -56,7 +56,7 @@ class MySpider(scrapy.Spider):
             item["category"] = response.css(self.category_selector + ' ::text').get(default="").strip()
             item["name"] = response.css(self.name_selector  + ' ::text').get(default="").strip()
             item["price"] = response.css(self.price_selector  + ' ::text').get(default="").strip()
-            item["unit"] = response.css(self.unit_selector  + ' ::text').get(default="уч.ед.").strip()
+            item["unit"] = response.css(self.unit_selector  + ' ::text').get(default="").strip()
 
             characteristics_dict = {}
             table = response.xpath(self.block_selector)

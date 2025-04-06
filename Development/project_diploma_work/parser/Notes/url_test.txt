@@ -4,8 +4,7 @@
 1. https://baza.124bt.ru
 2. https://obi.ru
 3. https://s-stroy.ru
-4. 
-5.
+4. https://m-delivery.ru
 
 
 Запросы:
@@ -52,5 +51,15 @@ scrapy crawl spider_main \
     -a value_selector='.//div[ contains(@class, "styles_text--default__yYra8") and contains(@class, "styles_text--regular__mUH83") and contains(@class, "styles_value__Ojowr")]'
 
 
-4. 
-5. 
+4. cd catching_materials
+scrapy crawl spider_main \
+    -a start_url='https://m-delivery.ru' \
+    -a allowed_domains='m-delivery.ru' \
+    -a product_path='/product/' \
+    -a category_selector='.way_to_page > *:nth-child(11)' \
+    -a name_selector='h1.no_underline' \
+    -a price_selector='.product-price__new span:nth-of-type(2)' \
+    -a unit_selector='.product-price__new span:nth-of-type(1)' \
+    -a block_selector='//div[@class="column"]' \
+    -a key_selector='.//div[@class="first"]' \
+    -a value_selector='.//div[@class="item"]/p[not(parent::div[@class="first"])]'
