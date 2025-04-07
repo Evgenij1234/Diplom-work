@@ -34,9 +34,6 @@ RUN apt-get update && \
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Установка Flask
-RUN pip install flask
-
 # Установка chromium
 RUN playwright install chromium
 
@@ -46,8 +43,3 @@ WORKDIR /parser
 # Копирование файлов проекта
 COPY . .
 
-# Создание простого Flask сервера
-COPY run_scrapy.py /parser/run_scrapy.py
-
-# Запуск сервера Flask
-CMD ["python", "run_scrapy.py"]

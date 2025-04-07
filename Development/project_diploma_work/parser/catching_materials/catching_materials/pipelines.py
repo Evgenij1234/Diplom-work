@@ -29,7 +29,11 @@ class CatchingMaterialsPipeline:
     def _handle_signal(self, signum, frame):
         sys.stderr.write(f"\nПолучен сигнал {signum}, завершаем запись JSON...\n")
         self._safe_close_file()
-        sys.exit(1)
+        if signum == signal.SIGTSTP:
+            signal.signal(signum, signal.SIG_DFL)  # Восстанавливаем стандартный обработчик
+            os.kill(os.getpid(), signum)  # Отправляем сигнал снова
+        else:
+            sys.exit(1)
 
     def process_item(self, item, spider):
         try:
@@ -39,7 +43,9 @@ class CatchingMaterialsPipeline:
                 'price': item.get('price', 'Не указана цена'),
                 'unit': item.get('unit', 'Не указана единица измерения'),
                 'characteristics': item.get('characteristics', {'Нет характеристик': 'Нет значения'}),
-                'link': item.get('link', 'Нет ссылки')
+                'link': item.get('link', 'Нет ссылки'),
+                'resource': item.get('resource', 'Ресурс не получен'),
+                'date_time': item.get('date_time', 'Дата и время не получены')
             }
 
             if not self.is_first_item:

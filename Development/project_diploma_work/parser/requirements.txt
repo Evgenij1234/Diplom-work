@@ -8,5 +8,4 @@ w3lib
 twisted
 cryptography
 pyOpenSSL
-flask
 scrapy-playwright

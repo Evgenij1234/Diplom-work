@@ -1,5 +1,6 @@
 import scrapy
 from catching_materials.items import CatchingMaterialsItem
+from datetime import datetime 
 
 class MySpider(scrapy.Spider):
     name = "spider_main"
@@ -29,6 +30,7 @@ class MySpider(scrapy.Spider):
         self.block_selector = kwargs.get('block_selector', '') #Селектор блока характеристик
         self.key_selector = kwargs.get('key_selector', '') #Селектор ключа характеристик
         self.value_selector = kwargs.get('value_selector', '') #Селектор значения характеристик
+        self.date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Дата и время начала скрапинга
         
         #Пуск скрапинга
     def start_requests(self):
@@ -85,6 +87,8 @@ class MySpider(scrapy.Spider):
 
             item["characteristics"] = characteristics_dict or {"Нет данных": ""}
             item["link"] = response.url
+            item["resource"] = self.start_url
+            item["date_time"] = self.date_time
             self.logger.info(f"Все вместе: {item} \n\n")
             yield item
         else:
