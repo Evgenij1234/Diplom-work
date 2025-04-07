@@ -11,26 +11,27 @@ services:
       - ./backend/php/my_project_directory:/var/www/html
     ports:
       - "8000:8000"
-    depends_on:
-      - db
+    #depends_on:
+      #- db
     environment:
       - SYMFONY_ENV=dev
-      - DATABASE_URL=mysql://evgen:ggghosttt123321@db:3306/parser
+      #- DATABASE_URL=mysql://evgen:ggghosttt123321@db:3306/parser
+      - REDIS_URL=redis://parser:6379
     command: bash -c "composer install --optimize-autoloader && php -S 0.0.0.0:8000 -t public"
 
-  db:
-    build:
-      context: ./backend/db
-    container_name: mysql-container
-    networks:
-      - my-network
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: ggghosttt123321
-      MYSQL_DATABASE: parser
-      MYSQL_USER: evgen
-      MYSQL_PASSWORD: ggghosttt123321
+  #db:
+   # build:
+    #  context: ./backend/db
+   # container_name: mysql-container
+   # networks:
+    #  - my-network
+    #ports:
+    #  - "3306:3306"
+   # environment:
+    #  MYSQL_ROOT_PASSWORD: ggghosttt123321
+    #  MYSQL_DATABASE: parser
+     # MYSQL_USER: evgen
+    #  MYSQL_PASSWORD: ggghosttt123321
 
   frontend:
     build:
@@ -40,8 +41,14 @@ services:
       - my-network
     ports:
       - "3000:3000"
-    depends_on:
-      - php
+    volumes:
+      - ./frontend:/frontend  # Монтируем папку с кодом
+      - /frontend/node_modules  # Исключаем перезапись node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Для отслеживания изменений в Docker
+      - WDS_SOCKET_PORT=3000  # Для работы HMR
+    #depends_on:
+     # - php
     stdin_open: true
     tty: true
 
@@ -51,12 +58,16 @@ services:
     container_name: parser-container
     networks:
       - my-network
-    depends_on:
-      - db
+   # depends_on:
+    #  - db
     ports:
-      - "5000:5000" 
+      - "6379:6379"
     volumes:
       - ./parser:/parser
+      - ./parser/redis_data:/data
+    environment:
+      - REDIS_URL=redis://localhost:6379
+    command: redis-server --appendonly yes 
     stdin_open: true
     tty: true
 

@@ -1,7 +1,12 @@
-# parser
+# Базовый образ Python с Redis
 FROM python:3.12.8-slim-bullseye
 
-# Установка зависимостей
+# Установка Redis
+RUN apt-get update && \
+    apt-get install -y redis-server && \
+    rm -rf /var/lib/apt/lists/*
+
+# Установка зависимостей для парсера
 RUN apt-get update && \
     apt-get install -y \
     python3-dev \
@@ -43,3 +48,11 @@ WORKDIR /parser
 # Копирование файлов проекта
 COPY . .
 
+# Настройка Redis
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Открытие портов
+EXPOSE 6379  
+
+CMD ["redis-server", "--appendonly", "yes"]
