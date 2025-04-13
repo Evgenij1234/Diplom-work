@@ -1,9 +1,17 @@
 import React from 'react';
+import Header from './Header'
+import './style/App.scss';
+import { HashRouter, Routes, Route, NavLink } from 'react-router-dom';
 
 function App() {
   return (
     <div>
-      <h1>Фронт работает хорошо</h1>
+      <Header></Header>
+      <HashRouter>
+            <Routes>
+
+            </Routes>
+        </HashRouter>
     </div>
   );
 }

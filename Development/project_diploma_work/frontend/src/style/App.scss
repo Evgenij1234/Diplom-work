@@ -1,0 +1,15 @@
+$color_blue:rgba(0, 51, 102, 1);
+$color_grey:rgba(233, 233, 235, 0.6);
+$color_wgite:rgba(255, 255, 255, 1);
+
+@font-face {
+    font-family: 'Oxanium';
+    src: url('./fonts/Oxanium/Oxanium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+body{
+    font-family: 'Oxanium', sans-serif;
+}
+
