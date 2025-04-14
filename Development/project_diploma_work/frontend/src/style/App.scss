@@ -9,7 +9,55 @@ $color_wgite:rgba(255, 255, 255, 1);
     font-style: normal;
   }
 
+  @mixin header-block($column-width: 60px, $columns: 2) {
+    display: grid;
+    grid-template-columns: repeat($columns, $column-width);
+    align-items: center;
+    padding: 5px;
+    color: $color_blue;
+  }
 body{
     font-family: 'Oxanium', sans-serif;
 }
+.App{
+  display: grid;
+  grid-template-rows: auto 1fr 60px;
+  min-height: 100vh;
+}
+.Header{
+  display: grid;
+  border-bottom: 1px solid $color_blue;
+  grid-template-columns:  minmax(0, 100px) 140px minmax(150px, 1fr) 100px  minmax(0, 100px);
+}
+.Header-left{
+  @include header-block();
+}
+.Header-left-logo{
+  width: 40px;
+}
+.Header-left-name{
+  font-weight: 800;
+  font-size: 18pt;
+}
+.Header-right{
+  @include header-block(25px);
+  
+}
+.Header-right-logo{
+width: 22px;
+}
+.Header-right-name{
+  font-weight: 700;
+  font-size: 14pt;
+}
 
+
+
+.Start{
+  background-color: aqua;
+  
+}
+
+.Footer{
+  background-color: bisque;
+}
