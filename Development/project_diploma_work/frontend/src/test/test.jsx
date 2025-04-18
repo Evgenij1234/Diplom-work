@@ -23,7 +23,7 @@ function Test() {
 
   return (
     <div>
-      <h1>API Test with Axios</h1>
+      <h1>API Test with Axios подключение к базе данных</h1>
       <button onClick={fetchData} disabled={loading}>
         {loading ? "Loading..." : "Fetch Data"}
       </button>
