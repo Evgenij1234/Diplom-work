@@ -1,15 +1,15 @@
 # Базовый образ MySQL
-FROM mysql:8
+FROM mysql:8.0
 
 # Копирование SQL скриптов
 COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
 COPY ./updates/ /docker-entrypoint-initdb.d/updates/
 
 # Установка переменных окружения
-ENV MYSQL_ROOT_PASSWORD=ggghosttt123321
+ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_DATABASE=parser
-ENV MYSQL_USER=evgen
-ENV MYSQL_PASSWORD=ggghosttt123321
+ENV MYSQL_USER=parser
+ENV MYSQL_PASSWORD=parser
 
 # Открытие порта MySQL
 EXPOSE 3306

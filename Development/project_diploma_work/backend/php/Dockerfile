@@ -1,34 +1,23 @@
-# Базовый образ PHP с FPM
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
-# Установка необходимых зависимостей
+# Установка зависимостей системы
 RUN apt-get update && apt-get install -y \
-    zip unzip curl git libxml2-dev && \
-    docker-php-ext-install pdo pdo_mysql xml
+    git unzip libzip-dev libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
 
-RUN apt-get update && apt-get install -y \
-    libpng-dev libjpeg-dev libfreetype6-dev && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd
-
-# Установка Composer
-COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
-
-# Настройка рабочей директории
+# Копируем весь проект
+COPY ./api /var/www/html
 WORKDIR /var/www/html
 
-# Копирование файлов проекта в контейнер
-COPY ./my_project_directory/ /var/www/html/
+# Установка Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Установка зависимостей Symfony
-RUN composer install --optimize-autoloader
+# Установка зависимостей проекта (включая Doctrine)
+RUN composer install --optimize-autoloader --no-dev \
+    && composer require symfony/orm-pack doctrine/doctrine-bundle
 
-# Установка прав для доступа к кешу и логам
-RUN chown -R www-data:www-data /var/www/html/var && \
-    chmod -R 775 /var/www/html/var
+# Права на папку var
+RUN chown -R www-data:www-data var
 
-# Открытие порта для приложения
-EXPOSE 8000
-
-# Запуск PHP-FPM
-CMD ["php-fpm"]
+# Запуск Symfony (если используешь Symfony CLI)
+CMD ["symfony", "server:start", "--no-tls"]

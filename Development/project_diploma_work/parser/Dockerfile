@@ -47,12 +47,3 @@ WORKDIR /parser
 
 # Копирование файлов проекта
 COPY . .
-
-# Настройка Redis
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Открытие портов
-EXPOSE 6379  
-
-CMD ["redis-server", "--appendonly", "yes"]
