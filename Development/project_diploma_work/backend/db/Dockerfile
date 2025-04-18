@@ -3,7 +3,7 @@ FROM mysql:8.0
 
 # Копирование SQL скриптов
 COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
-COPY ./updates/ /docker-entrypoint-initdb.d/updates/
+COPY ./migrations/ /docker-entrypoint-initdb.d/migrations/
 
 # Установка переменных окружения
 ENV MYSQL_ROOT_PASSWORD=root
