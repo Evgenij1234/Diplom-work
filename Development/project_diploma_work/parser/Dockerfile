@@ -35,15 +35,21 @@ RUN apt-get update && \
     libcairo2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Установка зависимостей Python
+# Установка зависимостей Python из requirements.txt
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Установка chromium
+# Установка chromium через playwright
 RUN playwright install chromium
 
 # Установка рабочей директории
 WORKDIR /parser
 
-# Копирование файлов проекта
+# Копирование файлов проекта в контейнер
 COPY . .
+
+# Экспонирование порта для Flask
+EXPOSE 5000
+
+# Команда для запуска приложения Flask
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]

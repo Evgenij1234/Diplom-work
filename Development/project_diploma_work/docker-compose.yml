@@ -20,7 +20,7 @@ services:
 
   db:
     build:
-      context: ./backend/db  # Путь к Dockerfile для MySQL
+      context: ./backend/db  
     container_name: mysql-container
     networks:
       - my-network
@@ -30,11 +30,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: parser
       MYSQL_USER: parser
-      MYSQL_PASSWORD: parser
-    volumes:
-      - ./backend/db/data:/var/lib/mysql  # Монтируем локальную папку для данных MySQL
-      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql  # Начальный скрипт
-      - ./backend/db/migrations:/docker-entrypoint-initdb.d/migrations  # Миграции
+      MYSQL_PASSWORD: parser  
 
   frontend:
     build:
@@ -61,10 +57,11 @@ services:
     container_name: parser-container
     networks:
       - my-network
-    depends_on:
-      - db
+    #depends_on:
+      #- db
     ports:
       - "6379:6379"
+      - "5000:5000"
     volumes:
       - ./parser:/parser
     stdin_open: true

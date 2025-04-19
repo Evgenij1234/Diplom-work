@@ -25,6 +25,31 @@ scrapy crawl spider_main \
     -a key_selector='.//td[@class="name"]' \
     -a value_selector='.//td[@class="value"]'
 
+Межсетевой пример:
+curl -X POST http://localhost:5000/start-scrapy \
+     -H "Content-Type: application/json" \
+     -d '{
+           "user_id": "user123", 
+           "start_url": "https://baza.124bt.ru",
+           "allowed_domains": "baza.124bt.ru",
+           "product_path": "/product/",
+           "category_selector": "p em a",
+           "name_selector": "[itemprop=\"name\"]",
+           "price_selector": ".price.nowrap",
+           "unit_selector": ".ruble",
+           "block_selector": "//table[@id=\"product-features\"]",
+           "key_selector": ".//td[@class=\"name\"]",
+           "value_selector": ".//td[@class=\"value\"]"
+         }'
+
+
+Останвока:
+curl -X POST http://localhost:5000/stop-scrapy \
+     -H "Content-Type: application/json" \
+     -d '{
+           "user_id": "user123"
+         }'
+
 Правила ввода идентификаторов сайта, параметры start_url, allowed_domains, product_path:
 1. start_url - Ссылка на головную страницу сайта имеет вид https://domain.com
 2. allowed_domains - ограничение на домен, имеет вид domain.com
