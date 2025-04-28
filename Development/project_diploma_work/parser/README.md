@@ -14,6 +14,7 @@ scrapy shell 'https://www.xn--24-6kce4bvjpfdl.xn--p1ai/'
 
 cd catching_materials
 scrapy crawl spider_main \
+    -a user='user1234' \
     -a start_url='https://baza.124bt.ru' \
     -a allowed_domains='baza.124bt.ru' \
     -a product_path='/product/' \
@@ -49,6 +50,11 @@ curl -X POST http://localhost:5000/stop-scrapy \
      -d '{
            "user_id": "user123"
          }'
+Запрос данных:
+curl "http://localhost:5000/get-data?user_id=user123"
+
+Запрос логов: 
+curl "http://localhost:5000/get-log?user_id=user123"
 
 Правила ввода идентификаторов сайта, параметры start_url, allowed_domains, product_path:
 1. start_url - Ссылка на головную страницу сайта имеет вид https://domain.com

@@ -16,14 +16,29 @@ $color_white: rgba(255, 255, 255, 1);
     padding: 5px;
     color: $color_blue;
   }
+  
 body{
     font-family: 'Oxanium', sans-serif;
 }
-.App{
-  display: grid;
-  grid-template-rows: auto 1fr;
+
+.App {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 45px; /* Высота фиксированного хедера */
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
 .Header{
   position: fixed;
   top: 0;          
@@ -129,6 +144,7 @@ width: 22px;
 .Footer{
   background-color: $color_grey;
   height: 45px;
+  flex-shrink: 0;
 }
 .Footer-text{
   padding-left: 15px;
@@ -142,7 +158,6 @@ width: 22px;
 .Start{
   display: grid;
   grid-template-rows: auto 1fr;
-  margin-top: 45px
   
 }
 .Start-title {
@@ -478,8 +493,12 @@ h1 {
   font-size: 18pt;
   padding-bottom: 20px;
 }
+
+
+
+
 // Форма регистрации
-.RegistrationForm{
+.RegistrationForm {
   background-color: $color_white;
   display: grid;
   position: absolute;
@@ -488,24 +507,97 @@ h1 {
   height: 290px;
   right: 0;
   margin-right: 15px; 
-
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
+
 .RegistrationForm-menu{
-
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 5px;
 }
-.RegistrationForm-menu-button{
+@mixin registration-button {
+  width: 127px;
+  height: 30px;
+  background-color: $color_blue;
+  color: $color_white;
+  border: 2px solid $color_blue;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 
+  &:hover {
+    background-color: $color_white;
+    color: $color_blue;
+    transform: translateY(-2px);
+  }
+}
+
+.RegistrationForm-menu-button{
+  @include registration-button;
+  height: 35px;
 }
 .Register{
-
+  display: grid;
 }
 .Register-div{
-
+width: 100%;
+justify-content: center;
+margin-bottom: 15px;  
 }
 .Register-div-input{
-
+  width: 100%;
+  padding: 10px 15px;         
+  border: 1px solid #ccc;   
+  border-radius: 6px;        
+  font-size: 15px;          
+  outline: none;              
+  transition: border-color 0.3s; 
+}
+.Register-div-input:focus {
+  border-color: $color_blue;
 }
 .Register-div-button{
-  
+  @include registration-button;
+  margin-left: 40px;
+  width: 180px;
 }
 
+
+//Меню с парсером
+.Work{
+ 
+}
+.work-nav{
+  background-color: $color_blue;
+  height: 40px;
+  display: grid;
+  align-items: center;
+  grid-template-columns:  minmax(0, 100px) 100px 85px 100px;
+}
+.work-nav-gap{
+
+}
+.work-nav-link{
+  text-decoration: none;
+  color: $color_white;
+  font-weight: 700;
+}
+.work-content{
+  padding: 15px;
+}
+//Scraping
+.Scraping{
+
+}
+//Analysis
+.Analysis{
+
+}
+//Manual
+.Manual{
+
+}

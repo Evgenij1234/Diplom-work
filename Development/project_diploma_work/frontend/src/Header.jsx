@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from "./img/logo";
 import Person from "./img/Person";
 import RegistrationForm from "./RegistrationForm";
@@ -14,11 +15,16 @@ function Header() {
       setIsFormVisible(false);
     }
   };
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
 
   return (
     <div className="Header">
       <div className="Header-gap"></div>
-      <div className="Header-left">
+      <div  onClick={handleLogoClick} className="Header-left">
         <div className="Header-left-logo">
           <Logo></Logo>
         </div>

@@ -2,6 +2,7 @@ import scrapy
 
 
 class CatchingMaterialsItem(scrapy.Item):
+    user = scrapy.Field() # Пользователь
     category =  scrapy.Field() # Категория*
     name = scrapy.Field()  # Название*
     price = scrapy.Field()  # Цена*

@@ -10,3 +10,4 @@ cryptography
 pyOpenSSL
 scrapy-playwright
 flask
+flask_cors

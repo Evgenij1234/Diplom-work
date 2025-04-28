@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, logout, registerSuccess } from "./redux/counter/authSlice";
+import {
+  loginSuccess,
+  logout,
+  registerSuccess,
+} from "./redux/counter/authSlice";
 
 function RegistrationForm({ isFormVisible }) {
   const [activeForm, setActiveForm] = useState("register"); // 'register' | 'login'
@@ -24,7 +28,7 @@ function RegistrationForm({ isFormVisible }) {
           className="RegistrationForm-menu-button"
           onClick={() => setActiveForm("login")}
         >
-          Войти
+          Вход
         </button>
         <button
           className="RegistrationForm-menu-button"

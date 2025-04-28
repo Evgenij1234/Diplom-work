@@ -57,8 +57,8 @@ services:
     container_name: parser-container
     networks:
       - my-network
-    #depends_on:
-      #- db
+    depends_on:
+      - db
     ports:
       - "6379:6379"
       - "5000:5000"

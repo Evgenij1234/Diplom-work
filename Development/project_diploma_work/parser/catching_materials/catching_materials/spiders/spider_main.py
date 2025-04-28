@@ -6,7 +6,7 @@ class MySpider(scrapy.Spider):
     name = "spider_main"
     allowed_domains = []
     custom_settings = {
-        'CONCURRENT_REQUESTS': 5, #в продакшене увеличить до 30
+        'CONCURRENT_REQUESTS': 5, #в проде увеличить до 30
         'DOWNLOAD_DELAY': 1.0,
     }
 
@@ -15,6 +15,7 @@ class MySpider(scrapy.Spider):
         self.visited_urls = set() # Словарь уже пройденных ссылок
         
         # Параметры скрапинга
+        self.user = kwargs.get('user', '') #Пользователь
         self.start_url = kwargs.get('start_url', '') #Стартовая ссылка
         if 'allowed_domains' in kwargs:
             self.allowed_domains = [kwargs['allowed_domains']] #Ограничение на домен
@@ -55,6 +56,7 @@ class MySpider(scrapy.Spider):
     def parse_product(self, response):
         if self.product_path in response.url:
             item = CatchingMaterialsItem()
+            item["user"] = self.user
             item["category"] = response.css(self.category_selector + ' ::text').get(default="").strip()
             item["name"] = response.css(self.name_selector  + ' ::text').get(default="").strip()
             item["price"] = response.css(self.price_selector  + ' ::text').get(default="").strip()
