@@ -14,7 +14,7 @@ scrapy_processes = {}  # Словарь для хранения процессо
 
 @app.route('/')
 def hello():
-    return "Hello, this is your Scrapy Flask server!"
+    return "Hello, this is your Scrapy Flask serveraaa!"
 
 @app.route('/start-scrapy', methods=['POST'])
 def start_scrapy():

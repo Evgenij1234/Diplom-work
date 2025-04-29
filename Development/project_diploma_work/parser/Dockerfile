@@ -1,10 +1,5 @@
-# Базовый образ Python с Redis
+# Базовый образ Python
 FROM python:3.12.8-slim-bullseye
-
-# Установка Redis
-RUN apt-get update && \
-    apt-get install -y redis-server && \
-    rm -rf /var/lib/apt/lists/*
 
 # Установка зависимостей для парсера
 RUN apt-get update && \

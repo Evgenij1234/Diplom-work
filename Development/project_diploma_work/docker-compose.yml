@@ -1,37 +1,7 @@
 version: '3.8'
 
 services:
-  php:
-    build:
-      context: ./backend/php
-    container_name: php-container
-    networks:
-      - my-network
-    volumes:
-      - ./backend/php/api:/var/www/html
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-    environment:
-      - SYMFONY_ENV=dev
-      - DATABASE_URL=mysql://parser:parser@db:3306/parser
-    command: bash -c "composer install --optimize-autoloader && php -S 0.0.0.0:8000 -t public"
-
-  db:
-    build:
-      context: ./backend/db  
-    container_name: mysql-container
-    networks:
-      - my-network
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: parser
-      MYSQL_USER: parser
-      MYSQL_PASSWORD: parser  
-
+ 
   frontend:
     build:
       context: ./frontend
@@ -46,8 +16,6 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true 
       - WDS_SOCKET_PORT=3000  
-    depends_on:
-      - php
     stdin_open: true
     tty: true
 
@@ -57,10 +25,7 @@ services:
     container_name: parser-container
     networks:
       - my-network
-    depends_on:
-      - db
     ports:
-      - "6379:6379"
       - "5000:5000"
     volumes:
       - ./parser:/parser
