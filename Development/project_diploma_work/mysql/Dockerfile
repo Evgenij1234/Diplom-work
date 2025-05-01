@@ -6,6 +6,8 @@ ENV MYSQL_DATABASE=appdb
 ENV MYSQL_USER=appuser
 ENV MYSQL_PASSWORD=userpass
 
+# Копируем скрипт инициализации
+COPY init.sql /docker-entrypoint-initdb.d/
 # Открываем порт MySQL
 EXPOSE 3306
 

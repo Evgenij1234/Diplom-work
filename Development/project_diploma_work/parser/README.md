@@ -154,3 +154,6 @@ scrapy crawl spider_main \
     -a block_selector='//div[@class="column"]' \
     -a key_selector='.//div[@class="first"]' \
     -a value_selector='.//div[@class="item"]/p[not(parent::div[@class="first"])]'
+
+
+# Список маршрутов

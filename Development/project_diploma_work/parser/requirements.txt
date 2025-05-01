@@ -11,3 +11,4 @@ pyOpenSSL
 scrapy-playwright
 flask
 flask_cors
+flask-sqlalchemy

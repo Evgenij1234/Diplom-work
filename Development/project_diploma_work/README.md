@@ -19,6 +19,10 @@ docker-compose up -d - запустить все
 docker-compose build СОбрать все
 docker-compose build --no-cache - собрать с нуля все
 
+# Включить/выключить определенный контейнер
+docker-compose stop parser
+docker-compose start parser
+
 # очистка
 docker-compose down --volumes --remove-orphans
 docker system prune -a
