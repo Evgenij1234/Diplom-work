@@ -2,6 +2,22 @@ $color_blue: rgba(0, 51, 102, 1);
 $color_grey: rgba(233, 233, 235, 0.6);
 $color_white: rgba(255, 255, 255, 1);
 //Общее
+@mixin glow-scale(
+  $glow-color: $color_blue,  
+  $glow-intensity: 10px, 
+  $scale-factor: 1.05,   
+  $transition-time: 0.3s
+) {
+  display: inline-block;
+  transition: 
+    text-shadow $transition-time ease,
+    transform $transition-time ease;
+
+  &:hover {
+    text-shadow: 0 0 $glow-intensity $glow-color;
+    transform: scale($scale-factor);
+  }
+}
 @font-face {
     font-family: 'Oxanium';
     src: url('./fonts/Oxanium/Oxanium.ttf') format('truetype');
@@ -569,14 +585,26 @@ margin-bottom: 15px;
 
 //Меню с парсером
 .Work{
- 
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
-.work-nav{
-  background-color: $color_blue;
-  height: 40px;
-  display: grid;
-  align-items: center;
-  grid-template-columns:  minmax(0, 100px) 100px 85px 100px;
+.work-nav {
+  display: flex;
+  background-color: rgba(0, 51, 102, 1);
+  padding: 10px;
+  gap: 20px;
+  flex-shrink: 0;
+
+  &-link {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+
+  }
 }
 .work-nav-gap{
 
@@ -585,19 +613,10 @@ margin-bottom: 15px;
   text-decoration: none;
   color: $color_white;
   font-weight: 700;
+  @include glow-scale();
 }
-.work-content{
-  padding: 15px;
-}
-//Scraping
-.Scraping{
-
-}
-//Analysis
-.Analysis{
-
-}
-//Manual
-.Manual{
-
+.work-content {
+  flex-grow: 1;
+  overflow: auto;
+  padding: 40px;
 }

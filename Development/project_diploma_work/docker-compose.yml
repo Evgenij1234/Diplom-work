@@ -32,6 +32,20 @@ services:
     stdin_open: true
     tty: true
 
+  mysql:
+    build:
+      context: ./mysql
+    container_name: mysql-container
+    networks:
+      - my-network
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
 networks:
   my-network:
     driver: bridge
+
+volumes:
+  mysql_data:

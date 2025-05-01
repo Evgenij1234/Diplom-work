@@ -24,7 +24,7 @@ function Work() {
           <Route index element={<Scraping />} />
           <Route path="scraping" element={<Scraping />} />
           <Route path="analysis" element={<Analysis />} />
-          <Route path="manual" element={<Manual />} />
+          <Route path="/manual/*" element={<Manual />} />
         </Routes>
       </div>
     </div>
