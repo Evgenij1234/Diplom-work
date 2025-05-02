@@ -31,5 +31,5 @@ docker system prune -a
 docker builder prune -a
 docker system prune -a -f
 
-# Удаляем ВМ и все данные (осторожно, это очистит всё!)
+# Удаляем ВМ и все данные (это очистит всё!)
 rm -rf ~/.docker/desktop/vms/0/data/Docker.raw
