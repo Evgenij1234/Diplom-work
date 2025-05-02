@@ -7,3 +7,18 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user VARCHAR(50) NOT NULL,
+    category VARCHAR(100),
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2),
+    unit VARCHAR(10),
+    characteristics JSON,
+    link TEXT,
+    resource TEXT,
+    date_time DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE
+);

@@ -157,3 +157,39 @@ scrapy crawl spider_main \
 
 
 # Список маршрутов
+
+
+
+1. Попытка регистрации пользователя
+
+curl -X POST http://localhost:5000/register \
+-H "Content-Type: application/json" \
+-d '{"username":"testuser1", "password":"testpass1231"}'
+
+2. Попробуем зарегистрировать нового пользователя
+
+curl -X POST http://localhost:5000/register \
+-H "Content-Type: application/json" \
+-d '{"username":"newtestuser11", "password":"newtestpass12311"}'
+
+3. Вход с новыми учетными данными
+
+curl -X POST http://localhost:5000/login \
+-H "Content-Type: application/json" \
+-d '{"username":"newtestuser1", "password":"newtestpass1231"}'
+
+4. Проверка защищенного роута (скопируйте токен из предыдущего ответа)
+
+curl -X GET http://localhost:5000/protected \
+-H "Authorization: Bearer ваш.токен.из.ответа"
+
+5. Проверка ошибок (неверный пароль)
+
+curl -X POST http://localhost:5000/login \
+-H "Content-Type: application/json" \
+-d '{"username":"newtestuser", "password":"wrongpassword"}'
+
+6. Проверка с неверным токеном
+
+curl -X GET http://localhost:5000/protected \
+-H "Authorization: Bearer неверный.токен"

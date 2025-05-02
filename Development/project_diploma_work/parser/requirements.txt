@@ -12,3 +12,9 @@ scrapy-playwright
 flask
 flask_cors
 flask-sqlalchemy
+pymysql
+flask-cors
+werkzeug
+pyjwt 
+flask-jwt-extended
+python-dotenv
