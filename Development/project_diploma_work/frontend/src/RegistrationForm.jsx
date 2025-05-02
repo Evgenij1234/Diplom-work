@@ -13,10 +13,23 @@ import axios from 'axios';
 
 function RegistrationForm({ isFormVisible }) {
   const [activeForm, setActiveForm] = useState("register");
+  const [internalFormVisible, setInternalFormVisible] = useState(isFormVisible);
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
-  // Проверяем аутентификацию при загрузке
+  // Синхронизация с пропсом isFormVisible
+  useEffect(() => {
+    setInternalFormVisible(isFormVisible);
+  }, [isFormVisible]);
+
+  // Закрытие формы при успешной авторизации
+  useEffect(() => {
+    if (isAuthenticated) {
+      setInternalFormVisible(false);
+    }
+  }, [isAuthenticated]);
+
+  // Проверка аутентификации при загрузке
   useEffect(() => {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
@@ -29,7 +42,7 @@ function RegistrationForm({ isFormVisible }) {
     }
   }, [dispatch, isAuthenticated]);
 
-  if (!isFormVisible) return null;
+  if (!internalFormVisible) return null;
 
   if (isAuthenticated) {
     return (
@@ -99,7 +112,6 @@ function Register({ setActiveForm }) {
       localStorage.setItem('token', response.data.access_token);
       localStorage.setItem('username', response.data.username);
       setSuccess(true);
-
     } catch (err) {
       const errorMessage = err.response?.data?.error || "Ошибка регистрации";
       setError(errorMessage);

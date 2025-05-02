@@ -8,16 +8,9 @@ import RegistrationForm from "./RegistrationForm";
 function Header() {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   const handleClick = () => {
-    if (!isAuthenticated) {
-      setIsFormVisible(!isFormVisible);
-    } else {
-      // Действия для авторизованного пользователя
-      // Например, переход в личный кабинет
-      navigate('/profile');
-    }
+    setIsFormVisible(!isFormVisible);
   };
 
   const handleLogoClick = () => {
@@ -34,7 +27,10 @@ function Header() {
         <div className="Header-left-name">RivalX</div>
       </div>
       <div className="Header-gap">
-        <RegistrationForm isFormVisible={isFormVisible} />
+        <RegistrationForm 
+          isFormVisible={isFormVisible} 
+          setIsFormVisible={setIsFormVisible} 
+        />
       </div>
       <button onClick={handleClick} className="Header-right">
         <div className="Header-right-logo">
