@@ -21,13 +21,7 @@ def create_app():
     app.config['JWT_HEADER_TYPE'] = 'Bearer'
     
     # Конфигурация CORS
-    CORS(app, resources={
-        r"/api/*": {
-            "origins": os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(','),
-            "methods": ["GET", "POST", "PUT", "DELETE"],
-            "allow_headers": ["Content-Type", "Authorization"]
-        }
-    })
+    CORS(app)
     
     # Конфигурация базы данных
     app.config['SQLALCHEMY_DATABASE_URI'] = (

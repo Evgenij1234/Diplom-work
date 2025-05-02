@@ -20,23 +20,23 @@ def register():
         
         # Валидация входных данных
         if not data:
-            return jsonify({'error': 'No data provided'}), 400
+            return jsonify({'error': 'Не предоставлены данные'}), 400
             
         username = data.get('username')
         password = data.get('password')
         
         if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+            return jsonify({'error': 'Требуется имя пользователя и пароль'}), 400
             
         if len(username) < 4:
-            return jsonify({'error': 'Username must be at least 4 characters'}), 400
+            return jsonify({'error': 'Имя пользователя должно быть не менее 4 символов'}), 400
             
         if len(password) < 6:
-            return jsonify({'error': 'Password must be at least 6 characters'}), 400
+            return jsonify({'error': 'Пароль должен быть не менее 6 символов'}), 400
             
         # Проверка существования пользователя
         if User.query.filter_by(username=username).first():
-            return jsonify({'error': 'Username already exists'}), 409
+            return jsonify({'error': 'Пользователь с таким именем уже существует'}), 409
             
         # Создание нового пользователя
         new_user = User(username=username)
@@ -45,16 +45,16 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         
-        # Генерация токена
+        # Генерация токена с явным преобразованием ID в строку
         access_token = create_access_token(
-            identity=new_user.id,
+            identity=str(new_user.id),  # Важное исправление здесь!
             expires_delta=timedelta(days=7)
         )
         
-        logger.info(f"New user registered: {username}")
+        logger.info(f"Новый пользователь зарегистрирован: {username}")
         
         return jsonify({
-            'message': 'User registered successfully',
+            'message': 'Пользователь успешно зарегистрирован',
             'access_token': access_token,
             'user_id': new_user.id,
             'username': new_user.username
@@ -62,47 +62,46 @@ def register():
         
     except Exception as e:
         db.session.rollback()
-        logger.error(f"Registration error: {str(e)}")
-        return jsonify({'error': 'Registration failed'}), 500
+        logger.error(f"Ошибка регистрации: {str(e)}", exc_info=True)
+        return jsonify({'error': 'Ошибка регистрации'}), 500
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
     try:
         data = request.get_json()
         
-        # Валидация входных данных
         if not data:
-            return jsonify({'error': 'No data provided'}), 400
+            return jsonify({'error': 'Не предоставлены данные'}), 400
             
         username = data.get('username')
         password = data.get('password')
         
         if not username or not password:
-            return jsonify({'error': 'Username and password are required'}), 400
+            return jsonify({'error': 'Требуется имя пользователя и пароль'}), 400
             
-        # Поиск пользователя
         user = User.query.filter_by(username=username).first()
         
         if not user or not user.check_password(password):
-            return jsonify({'error': 'Invalid username or password'}), 401
+            return jsonify({'error': 'Неверное имя пользователя или пароль'}), 401
             
-        # Генерация токена
+        # Явное преобразование ID в строку
         access_token = create_access_token(
-            identity=user.id,
-            expires_delta=timedelta(days=7))
+            identity=str(user.id),  # Важное исправление здесь!
+            expires_delta=timedelta(days=7)
+        )
         
-        logger.info(f"User logged in: {username}")
+        logger.info(f"Пользователь вошел в систему: {username}")
         
         return jsonify({
-            'message': 'Login successful',
+            'message': 'Вход выполнен успешно',
             'access_token': access_token,
             'user_id': user.id,
             'username': user.username
         }), 200
         
     except Exception as e:
-        logger.error(f"Login error: {str(e)}")
-        return jsonify({'error': 'Login failed'}), 500
+        logger.error(f"Ошибка входа: {str(e)}", exc_info=True)
+        return jsonify({'error': 'Ошибка входа'}), 500
 
 @auth_bp.route('/protected', methods=['GET'])
 @jwt_required()
@@ -112,21 +111,30 @@ def protected():
         user = User.query.get(current_user_id)
         
         if not user:
-            return jsonify({'error': 'User not found'}), 404
+            return jsonify({'error': 'Пользователь не найден'}), 404
             
         return jsonify({
-            'message': 'Protected endpoint accessed successfully',
+            'message': 'Доступ к защищенному ресурсу получен',
             'user_id': user.id,
             'username': user.username
         }), 200
         
     except Exception as e:
-        logger.error(f"Protected endpoint error: {str(e)}")
-        return jsonify({'error': 'Access denied'}), 403
+        logger.error(f"Ошибка защищенного эндпоинта: {str(e)}", exc_info=True)
+        return jsonify({'error': 'Доступ запрещен'}), 403
 
 @auth_bp.route('/validate-token', methods=['GET'])
 @jwt_required()
 def validate_token():
-    """Эндпоинт для проверки валидности токена"""
-    current_user_id = get_jwt_identity()
-    return jsonify({'valid': True, 'user_id': current_user_id}), 200
+    try:
+        current_user_id = get_jwt_identity()
+        if not current_user_id:
+            return jsonify({'valid': False, 'error': 'Неверный токен'}), 401
+            
+        return jsonify({
+            'valid': True,
+            'user_id': current_user_id
+        }), 200
+    except Exception as e:
+        logger.error(f"Ошибка валидации токена: {str(e)}", exc_info=True)
+        return jsonify({'valid': False, 'error': 'Ошибка валидации токена'}), 400

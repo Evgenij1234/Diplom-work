@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect, } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Logo from "./img/logo";
 import Person from "./img/Person";
 import RegistrationForm from "./RegistrationForm";
 
 function Header() {
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const handleClick = () => {
     if(isFormVisible === false){
@@ -24,18 +26,20 @@ function Header() {
   return (
     <div className="Header">
       <div className="Header-gap"></div>
-      <div  onClick={handleLogoClick} className="Header-left">
+      <div onClick={handleLogoClick} className="Header-left">
         <div className="Header-left-logo">
           <Logo></Logo>
         </div>
         <div className="Header-left-name">RivalX</div>
       </div>
-      <div className="Header-gap"><RegistrationForm isFormVisible={isFormVisible} /></div>
-      <button  onClick={handleClick} className="Header-right">
+      <div className="Header-gap"><RegistrationForm isFormVisible={isFormVisible}/></div>
+      <button onClick={handleClick} className="Header-right">
         <div className="Header-right-logo">
           <Person></Person>
         </div>
-        <div className="Header-right-name">Войти</div>
+        <div className="Header-right-name">
+          {isAuthenticated ? user.username : 'Войти'}
+        </div>
       </button>
       <div className="Header-gap"></div>
     </div>

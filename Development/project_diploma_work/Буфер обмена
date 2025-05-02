@@ -1,8 +1,52 @@
-from flask_jwt_extended import JWTManager
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Logo from "./img/logo";
+import Person from "./img/Person";
+import RegistrationForm from "./RegistrationForm";
 
-# После создания app
-app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'your-secret-key-here'  # В продакшене используйте надежный ключ
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=7)
+function Header() {
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-jwt = JWTManager(app)
+  const handleClick = () => {
+    if (!isAuthenticated) {
+      setIsFormVisible(!isFormVisible);
+    } else {
+      // Действия для авторизованного пользователя
+      // Например, переход в личный кабинет
+      navigate('/profile');
+    }
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
+  return (
+    <div className="Header">
+      <div className="Header-gap"></div>
+      <div onClick={handleLogoClick} className="Header-left">
+        <div className="Header-left-logo">
+          <Logo></Logo>
+        </div>
+        <div className="Header-left-name">RivalX</div>
+      </div>
+      <div className="Header-gap">
+        <RegistrationForm isFormVisible={isFormVisible} />
+      </div>
+      <button onClick={handleClick} className="Header-right">
+        <div className="Header-right-logo">
+          <Person></Person>
+        </div>
+        <div className="Header-right-name">
+          {isAuthenticated ? user.username : 'Войти'}
+        </div>
+      </button>
+      <div className="Header-gap"></div>
+    </div>
+  );
+}
+
+export default Header;

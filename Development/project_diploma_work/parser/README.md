@@ -181,7 +181,7 @@ curl -X POST http://localhost:5000/login \
 4. Проверка защищенного роута (скопируйте токен из предыдущего ответа)
 
 curl -X GET http://localhost:5000/protected \
--H "Authorization: Bearer ваш.токен.из.ответа"
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc0NjIwNDcxNCwianRpIjoiMWE3MWVhNGItNWRiOS00MjlhLWFmNjQtYTcwZGZiNjZmYWMyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjQiLCJuYmYiOjE3NDYyMDQ3MTQsImNzcmYiOiJiMTVlYzM1ZS0yOTBkLTQ2M2UtOGEwZi1mYmY4ZmExZTIyYTUiLCJleHAiOjE3NDY4MDk1MTR9.SZKL4HwHkXwjk18zvwbyXsMxkLNhGzFlXX0dD2Aj8f8"
 
 5. Проверка ошибок (неверный пароль)
 
