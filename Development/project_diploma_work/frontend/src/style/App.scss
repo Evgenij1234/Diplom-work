@@ -229,7 +229,6 @@ width: 22px;
       &:hover {
         background-color: $color_white;
         color: $color_blue;
-        transform: translateY(-2px);
       }
     }
   }
@@ -260,7 +259,6 @@ width: 22px;
       &:hover {
         background-color: $color_blue;
         color: $color_white;
-        transform: translateY(-2px);
       }
     }
   }
@@ -518,9 +516,9 @@ h1 {
   background-color: $color_white;
   display: grid;
   position: absolute;
+  gap: 10px;
   margin-top: 60px;
   width: 290px;
-  height: 290px;
   right: 0;
   margin-right: 15px; 
   padding: 15px;

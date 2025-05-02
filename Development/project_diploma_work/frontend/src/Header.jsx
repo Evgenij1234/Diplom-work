@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import Logo from "./img/logo";
 import Person from "./img/Person";
 import RegistrationForm from "./RegistrationForm";
+import { showAuthForm, hideAuthForm } from './redux/counter/authSlice';
 
 function Header() {
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const dispatch = useDispatch();
+  const { isFormVisible } = useSelector((state) => state.auth);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const handleClick = () => {
     if(isFormVisible === false){
-      setIsFormVisible(true);
+      dispatch(showAuthForm());
     }
     else{
-      setIsFormVisible(false);
+      dispatch(hideAuthForm());
     }
   };
   const navigate = useNavigate();

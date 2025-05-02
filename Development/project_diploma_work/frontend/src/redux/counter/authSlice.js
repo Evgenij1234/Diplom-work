@@ -10,7 +10,8 @@ const getInitialAuthState = () => {
     user: username ? { username } : null,
     token: token || null,
     loading: false,
-    error: null
+    error: null,
+    isFormVisible: false
   };
 };
 
@@ -86,6 +87,12 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
       }
+    },
+    showAuthForm: (state) => {
+      state.isFormVisible = true;
+    },
+    hideAuthForm: (state) => {
+      state.isFormVisible = false;
     }
   }
 });
@@ -98,7 +105,9 @@ export const {
   registerSuccess,
   registerFailure,
   logout,
-  checkAuth
+  checkAuth,
+  showAuthForm,
+  hideAuthForm
 } = authSlice.actions;
 
 export default authSlice.reducer;

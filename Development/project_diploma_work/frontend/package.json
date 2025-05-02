@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "productName": "Анализ рынка стройматериалов",
+    "proxy": "http://localhost:5000",
     "dependencies": {
       "@reduxjs/toolkit": "^2.2.1",
       "animate.css": "^4.1.1",

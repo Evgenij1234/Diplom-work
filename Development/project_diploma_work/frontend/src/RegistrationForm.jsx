@@ -7,7 +7,9 @@ import {
   registerStart,
   registerSuccess,
   registerFailure,
-  logout
+  logout,
+  showAuthForm,
+  hideAuthForm
 } from "./redux/counter/authSlice";
 import axios from 'axios';
 
@@ -112,6 +114,7 @@ function Register({ setActiveForm }) {
       localStorage.setItem('token', response.data.access_token);
       localStorage.setItem('username', response.data.username);
       setSuccess(true);
+      dispatch(hideAuthForm());
     } catch (err) {
       const errorMessage = err.response?.data?.error || "Ошибка регистрации";
       setError(errorMessage);
@@ -202,6 +205,7 @@ function LogIn() {
 
       localStorage.setItem('token', response.data.access_token);
       localStorage.setItem('username', response.data.username);
+      dispatch(hideAuthForm());
     } catch (err) {
       const errorMessage = err.response?.data?.error || "Неверный логин или пароль";
       setError(errorMessage);
@@ -248,6 +252,7 @@ function Exit() {
     dispatch(logout());
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    dispatch(hideAuthForm());
   };
 
   return (

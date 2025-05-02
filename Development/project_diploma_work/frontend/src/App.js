@@ -48,7 +48,7 @@ function AppWrapper() {
         <div className="layout">
           <div className="main-content">
             <Routes>
-              <Route path="/" element={<Start />} />
+              <Route path="/*" element={<Start />} />
               <Route 
                 path="/work/*" 
                 element={
