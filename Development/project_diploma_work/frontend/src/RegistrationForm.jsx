@@ -12,6 +12,7 @@ import {
   hideAuthForm
 } from "./redux/counter/authSlice";
 import axios from 'axios';
+const apiDomain = process.env.REACT_APP_API_DOMAIN;
 
 function RegistrationForm({ isFormVisible }) {
   const [activeForm, setActiveForm] = useState("register");
@@ -98,7 +99,7 @@ function Register({ setActiveForm }) {
 
     try {
       dispatch(registerStart());
-      const response = await axios.post('http://localhost:5000/register', {
+      const response = await axios.post(apiDomain + '/register', {
         username: login,
         password
       });
@@ -190,7 +191,7 @@ function LogIn() {
 
     try {
       dispatch(loginStart());
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post(apiDomain + '/login', {
         username: login,
         password
       });

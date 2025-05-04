@@ -20,6 +20,33 @@ function Scraping() {
     value_selector: "",
   });
 
+  // Добавлено: состояние для хранения логов
+  const [logs, setLogs] = useState("");
+  // Добавлено: состояние для отслеживания статуса процесса
+  const [isRunning, setIsRunning] = useState(false);
+  // Добавлено: ссылка на интервал обновления логов
+  const [logInterval, setLogInterval] = useState(null);
+
+  // Добавлено: функция для получения логов
+  const fetchLogs = async () => {
+    try {
+      const response = await axios.get(
+        `${apiDomain}/logs/${inputDataScraping.user_id}`
+      );
+      setLogs(response.data.logs);
+      setIsRunning(response.data.running || false);
+    } catch (error) {
+      console.error("Ошибка при получении логов:", error);
+    }
+  };
+
+  // Добавлено: эффект для очистки интервала при размонтировании
+  useEffect(() => {
+    return () => {
+      if (logInterval) clearInterval(logInterval);
+    };
+  }, [logInterval]);
+
   //Функция сбора вводимых данных из инпутов
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +55,7 @@ function Scraping() {
       [name]: value,
     });
   };
+
   // Функция для запуска парсинга
   const startScraping = async () => {
     try {
@@ -41,10 +69,19 @@ function Scraping() {
         }
       );
       console.log("Парсинг запущен:", response.data);
+      setIsRunning(true);
+
+      // Добавлено: запускаем периодическое обновление логов каждые 2 секунды
+      if (logInterval) clearInterval(logInterval);
+      setLogInterval(setInterval(fetchLogs, 2000));
+
+      // Добавлено: сразу запрашиваем логи
+      await fetchLogs();
     } catch (error) {
       console.error("Ошибка при запуске парсинга:", error);
     }
   };
+
   // Функция для остановки парсинга
   const stopScraping = async () => {
     try {
@@ -60,13 +97,23 @@ function Scraping() {
         }
       );
       console.log("Парсинг остановлен:", response.data);
+      setIsRunning(false);
+
+      // Добавлено: останавливаем обновление логов
+      if (logInterval) clearInterval(logInterval);
+      setLogInterval(null);
+
+      // Добавлено: обновляем логи с последними сообщениями
+      setLogs(response.data.logs || "");
     } catch (error) {
       console.error("Ошибка при остановке парсинга:", error);
     }
   };
+
   return (
     <div className="Scraping">
       <div className="Scraping-left">
+        {/* Левая часть осталась без изменений */}
         <div className="Scraping-left-box-input">
           <div className="Scraping-left-input">
             <span className="Scraping-left-input-name">start_url</span>
@@ -189,8 +236,14 @@ function Scraping() {
           <button className="Scraping-left-button">Сохранить</button>
         </div>
       </div>
+      {/* Правая часть с логами - добавлен вывод логов и статуса */}
       <div className="Scraping-right">
-        <div className="Scraping-right-log">{}</div>
+        <div className="log-status">
+          Статус: {isRunning ? "Выполняется" : "Не выполняется"}
+        </div>
+        <div className="Scraping-right-log">
+          <pre className="log-content">{logs || ""}</pre>
+        </div>
       </div>
     </div>
   );
