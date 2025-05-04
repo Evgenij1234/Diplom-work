@@ -12,6 +12,7 @@ scrapy shell 'https://www.xn--24-6kce4bvjpfdl.xn--p1ai/'
 С параметрами:
 ./dockerRun.sh 
 
+docker-compose exec parser /bin/bash
 cd catching_materials
 scrapy crawl spider_main \
     -a user='user1234' \
@@ -53,8 +54,17 @@ curl -X POST http://localhost:5000/stop-scrapy \
 Запрос данных:
 curl "http://localhost:5000/get-data?user_id=user123"
 
-Запрос логов: 
-curl "http://localhost:5000/get-log?user_id=user123"
+Получить логи в формате JSON
+curl http://localhost:5000/logs/user123
+
+Или скачать файл с логами
+curl http://localhost:5000/logs-file/user123 -o scrapy_logs.log
+
+
+
+
+
+
 
 Правила ввода идентификаторов сайта, параметры start_url, allowed_domains, product_path:
 1. start_url - Ссылка на головную страницу сайта имеет вид https://domain.com
