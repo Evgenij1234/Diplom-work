@@ -1,6 +1,6 @@
 [
 {
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Сайдинг",
     "name": "Фиброцементный сайдинг красный ГОСТ 18124-2012",
     "price": "630",
@@ -22,25 +22,10 @@
     },
     "link": "https://baza.124bt.ru/product/fibrocementnyy-sayding-krasnyy-gost-18124-2012/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
-    "category": "Шпатлевка",
-    "name": "Шпатлевка гипсовая Seneco PL54, 20 кг",
-    "price": "377",
-    "unit": "₽",
-    "characteristics": {
-        "Вид работ": "Для внутренних работ",
-        "Производитель": "SENECO",
-        "Вес": "20 кг"
-    },
-    "link": "https://baza.124bt.ru/product/shpatlevka-gipsovaya-seneco-pl54-20-kg/",
-    "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
-},
-{
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Кладочные смеси",
     "name": "Кладочная смесь Геркулес М-100 GB-14, 25 кг",
     "price": "479",
@@ -52,10 +37,10 @@
     },
     "link": "https://baza.124bt.ru/product/kladochnaya-smes-gerkules-m-100-gb-14-25-kg/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Кладочные смеси",
     "name": "Кладочная смесь цементная термостойкая ByProc MMW-070",
     "price": "320",
@@ -77,10 +62,10 @@
     },
     "link": "https://baza.124bt.ru/product/kladochnaya-smes-cementnaya-termostoykaya-byproc-mmw-070/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Блоки УДБ",
     "name": "Унифицированный дырчатый блок УДБ 6,0*0,6",
     "price": "16 680",
@@ -94,10 +79,90 @@
     },
     "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-60*06/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
+    "user": "user123",
+    "category": "Сваи железобетонные",
+    "name": "Сваи с ненапрягаемой арматурой С50.20-3.1 ГОСТ 19804-2012",
+    "price": "3 550",
+    "unit": "₽",
+    "characteristics": {
+        "Габариты (В х Ш х Г)": "200 × 200 × 5155 мм",
+        "Вес": "525 кг",
+        "Производитель": "БТ",
+        "Объем": "0.21 м³"
+    },
+    "link": "https://baza.124bt.ru/product/svai-s-nenapryagaemoj-armaturoj-s5020-31-gost-19804-2012/",
+    "resource": "https://baza.124bt.ru",
+    "date_time": "2025-05-04 15:42:59"
+},
+{
+    "user": "user123",
+    "category": "Сваи железобетонные",
+    "name": "Сваи с ненапрягаемой арматурой С30.20-3.1 ГОСТ 19804-2012",
+    "price": "2 500",
+    "unit": "₽",
+    "characteristics": {
+        "Габариты (В х Ш х Г)": "200 × 200 × 3155 мм",
+        "Вес": "325 кг",
+        "Производитель": "БТ",
+        "Объем": "0.13 м³"
+    },
+    "link": "https://baza.124bt.ru/product/svai-s-nenapryagaemoj-armaturoj-s3020-31-gost-19804-2012/",
+    "resource": "https://baza.124bt.ru",
+    "date_time": "2025-05-04 15:42:59"
+},
+{
+    "user": "user123",
+    "category": "Сваи железобетонные",
+    "name": "Сваи с ненапрягаемой арматурой С40.20-3.1 ГОСТ 19804-2012",
+    "price": "3 500",
+    "unit": "₽",
+    "characteristics": {
+        "Габариты (В х Ш х Г)": "200 × 200 × 4155 мм",
+        "Вес": "425 кг",
+        "Производитель": "БТ",
+        "Объем": "0.17 м³"
+    },
+    "link": "https://baza.124bt.ru/product/svai-s-nenapryagaemoj-armaturoj-s4020-31-gost-19804-2012/",
+    "resource": "https://baza.124bt.ru",
+    "date_time": "2025-05-04 15:42:59"
+},
+{
+    "user": "user123",
+    "category": "Сваи железобетонные",
+    "name": "Сваи с ненапрягаемой арматурой С40.15-3.1 ГОСТ 19804-2012",
+    "price": "4 500",
+    "unit": "₽",
+    "characteristics": {
+        "Габариты (В х Ш х Г)": "150 × 150 × 4168 мм",
+        "Вес": "225 кг",
+        "Производитель": "БТ",
+        "Объем": "0.09 м³"
+    },
+    "link": "https://baza.124bt.ru/product/svai-s-nenapryagaemoj-armaturoj-s4015-31-gost-19804-2012/",
+    "resource": "https://baza.124bt.ru",
+    "date_time": "2025-05-04 15:42:59"
+},
+{
+    "user": "user123",
+    "category": "Сваи железобетонные",
+    "name": "Сваи с ненапрягаемой арматурой С30.15-3.1 ГОСТ 19804-2012",
+    "price": "4 500",
+    "unit": "₽",
+    "characteristics": {
+        "Габариты (В х Ш х Г)": "150 × 150 × 3168 мм",
+        "Вес": "175 кг",
+        "Производитель": "БТ",
+        "Объем": "0.07 м³"
+    },
+    "link": "https://baza.124bt.ru/product/svai-s-nenapryagaemoj-armaturoj-s3015-31-gost-19804-2012/",
+    "resource": "https://baza.124bt.ru",
+    "date_time": "2025-05-04 15:42:59"
+},
+{
+    "user": "user123",
     "category": "Блоки УДБ",
     "name": "Унифицированный дырчатый блок УДБ 5,4*0,6",
     "price": "15 000",
@@ -111,10 +176,10 @@
     },
     "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-54*06/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Блоки УДБ",
     "name": "Унифицированный дырчатый блок УДБ 4,8*0,6",
     "price": "13 200",
@@ -128,95 +193,10 @@
     },
     "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-48*06/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
-    "category": "Блоки УДБ",
-    "name": "Унифицированный дырчатый блок УДБ 4,2*0,6",
-    "price": "11 400",
-    "unit": "₽",
-    "characteristics": {
-        "Габариты (В х Ш х Г)": "580 × 600 × 4180 мм",
-        "Вес": "2300 кг",
-        "Производитель": "БТ",
-        "Объем": "0.905 м³",
-        "Ширина": "600 мм"
-    },
-    "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-42*06/",
-    "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
-},
-{
-    "user": "ussseer321",
-    "category": "Блоки УДБ",
-    "name": "Унифицированный дырчатый блок УДБ 3,6*0,6",
-    "price": "9 850",
-    "unit": "₽",
-    "characteristics": {
-        "Габариты (В х Ш х Г)": "580 × 600 × 3580 мм",
-        "Вес": "1940 кг",
-        "Производитель": "БТ",
-        "Объем": "0.775 м³",
-        "Ширина": "600 мм"
-    },
-    "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-36*06/",
-    "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
-},
-{
-    "user": "ussseer321",
-    "category": "Блоки УДБ",
-    "name": "Унифицированный дырчатый блок УДБ 3,0*0,6",
-    "price": "8 300",
-    "unit": "₽",
-    "characteristics": {
-        "Габариты (В х Ш х Г)": "580 × 600 × 2980 мм",
-        "Вес": "1600 кг",
-        "Производитель": "БТ",
-        "Объем": "0.645 м³",
-        "Ширина": "600 мм"
-    },
-    "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-30*06/",
-    "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
-},
-{
-    "user": "ussseer321",
-    "category": "Блоки УДБ",
-    "name": "Унифицированный дырчатый блок УДБ 1,8*0,6",
-    "price": "5 040",
-    "unit": "₽",
-    "characteristics": {
-        "Габариты (В х Ш х Г)": "580 × 600 × 1780 мм",
-        "Вес": "960 кг",
-        "Производитель": "БТ",
-        "Объем": "0.384 м³",
-        "Ширина": "600 мм"
-    },
-    "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-18*06/",
-    "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
-},
-{
-    "user": "ussseer321",
-    "category": "Блоки УДБ",
-    "name": "Унифицированный дырчатый блок УДБ 6,0*0,4",
-    "price": "11 760",
-    "unit": "₽",
-    "characteristics": {
-        "Габариты (В х Ш х Г)": "580 × 400 × 5980 мм",
-        "Вес": "2200 кг",
-        "Производитель": "БТ",
-        "Объем": "0.86 м³",
-        "Ширина": "400 мм"
-    },
-    "link": "https://baza.124bt.ru/product/unifitsirovannyj-dyrchatyj-blok-udb-60*04/",
-    "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
-},
-{
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Клеевые смеси",
     "name": "Усиленный клей для плитки Bergauf Keramik Plus, 25 кг",
     "price": "700",
@@ -242,10 +222,10 @@
     },
     "link": "https://baza.124bt.ru/product/usilennyy-kley-dlya-plitki-bergauf-keramik-plus-25-kg/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Клеевые смеси",
     "name": "Клей для керамогранита Gerkules GM-245 Granit PRO, 25 кг",
     "price": "1 030",
@@ -271,10 +251,10 @@
     },
     "link": "https://baza.124bt.ru/product/kley-dlya-keramogranita-gerkules-gm-245-granit-pro-25-kg/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Клеевые смеси",
     "name": "Клей для кафеля Gerkules GM-155 Keramik Max PRO, 25 кг",
     "price": "820",
@@ -299,10 +279,10 @@
     },
     "link": "https://baza.124bt.ru/product/kley-dlya-kafelya-gerkules-gm-155-keramik-max-pro-25-kg/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 },
 {
-    "user": "ussseer321",
+    "user": "user123",
     "category": "Клеевые смеси",
     "name": "Универсальный клей Bergauf Keramik Profi, 25 кг",
     "price": "670",
@@ -330,39 +310,5 @@
     },
     "link": "https://baza.124bt.ru/product/universalnyy-kley-bergauf-keramik-profi-25-kg/",
     "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
-},
-{
-    "user": "ussseer321",
-    "category": "Клеевые смеси",
-    "name": "Клей для кафеля Gerkules GM-45 суперполимер PRO, 25 кг",
-    "price": "670",
-    "unit": "₽",
-    "characteristics": {
-        "Назначение": "Для мозаики ,  Для керамогранита ,  Для теплого пола ,  Для плитки",
-        "Тип": "Повышенной прочности",
-        "Вид работ": "Для внутренних работ",
-        "Быстросохнущие": "Нет",
-        "Универсальные": "Да",
-        "Для основания": "Бетон, Кирпич, Гипсовая штукатурка, Цементная штукатурка, Известково-цементная штукатурка, Минеральные основания",
-        "Вяжущее вещество": "Цемент",
-        "Работа с жидким раствором при t° воздуха, °C": "от +5 °С до +30 °С",
-        "Расход смеси, кг/кв.м": "1.4",
-        "Расход воды л/кг": "0.22",
-        "Время корректировки, мин": "20",
-        "Толщина слоя, мм": "2-4",
-        "Максимальная толщина клеевого шва, мм": "4",
-        "Прочность": "М 100",
-        "Адгезия к бетону": "не менее 1,1 МПа",
-        "Открытое время": "20",
-        "Фракция": "до 0,63 мм",
-        "Время использования раствора": "4 ч",
-        "Производитель": "Gerkules",
-        "Вес": "25 кг",
-        "Цвет": "Серый"
-    },
-    "link": "https://baza.124bt.ru/product/kley-dlya-kafelya-gerkules-gm-45-superpolimer-pro-25-kg/",
-    "resource": "https://baza.124bt.ru",
-    "date_time": "2025-04-20 05:50:11"
+    "date_time": "2025-05-04 15:42:59"
 }
-]

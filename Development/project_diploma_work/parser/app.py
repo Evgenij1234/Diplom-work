@@ -6,7 +6,6 @@ from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 from extensions import db
 from controllers.scrapy_controller import scrapy_bp
-from controllers.log_data_controller import log_data_bp
 from controllers.auth_controller import auth_bp
 
 load_dotenv()
@@ -36,7 +35,6 @@ def create_app():
     
     # Регистрация Blueprints
     app.register_blueprint(scrapy_bp)
-    app.register_blueprint(log_data_bp)
     app.register_blueprint(auth_bp)
     
     return app

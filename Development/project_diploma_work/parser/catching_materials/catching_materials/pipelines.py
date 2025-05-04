@@ -10,12 +10,10 @@ class CatchingMaterialsPipeline:
     def __init__(self):
         # Определяем базовую директорию
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        self.data_dir = os.path.join(base_dir, '..', 'data')
-        self.logs_dir = os.path.join(base_dir, '..', 'logs')
+        self.data_dir = os.path.join(base_dir, '.', 'data')
         
-        # Создаем папки если их нет
+        # Создаем папку если ее нет
         os.makedirs(self.data_dir, exist_ok=True)
-        os.makedirs(self.logs_dir, exist_ok=True)
         
         # Инициализация переменных
         self.file = None
@@ -23,7 +21,6 @@ class CatchingMaterialsPipeline:
         self.is_first_item = True
         self.current_user = None
         self.output_file_path = None
-        self.log_file_path = None
         
         # Настройка временного логгера до получения информации о пользователе
         self._setup_temp_logging()
@@ -45,42 +42,6 @@ class CatchingMaterialsPipeline:
         root_logger.setLevel(logging.INFO)
         root_logger.addHandler(console_handler)
 
-    def _setup_user_logging(self, user):
-        """Настройка системы логирования для конкретного пользователя"""
-        # Очищаем предыдущие обработчики
-        root_logger = logging.getLogger()
-        for handler in root_logger.handlers[:]:
-            root_logger.removeHandler(handler)
-        
-        # Создаем форматтер
-        formatter = logging.Formatter(
-            '%(asctime)s [%(name)s] %(levelname)s: %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
-        )
-        
-        # Обработчик для записи в файл
-        file_handler = logging.FileHandler(self.log_file_path)
-        file_handler.setFormatter(formatter)
-        file_handler.setLevel(logging.INFO)
-        
-        # Обработчик для вывода в консоль
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(formatter)
-        console_handler.setLevel(logging.INFO)
-        
-        # Настраиваем корневой логгер
-        root_logger.setLevel(logging.INFO)
-        root_logger.addHandler(file_handler)
-        root_logger.addHandler(console_handler)
-        
-        # Логгер для этого пайплайна
-        self.logger = logging.getLogger(f'CatchingMaterialsPipeline_{user}')
-        self.logger.info(f"Инициализирован логгер для пользователя {user}. Логи будут записываться в {self.log_file_path}")
-
-    def open_spider(self, spider):
-        # Пока не знаем пользователя, используем временный логгер
-        self.temp_logger.info("Ожидаем первого элемента для определения пользователя")
-
     def _register_signal_handlers(self):
         signals = [signal.SIGINT, signal.SIGTERM, signal.SIGTSTP]
         for sig in signals:
@@ -100,6 +61,10 @@ class CatchingMaterialsPipeline:
         else:
             sys.exit(1)
 
+    def open_spider(self, spider):
+        # Пока не знаем пользователя, используем временный логгер
+        self.temp_logger.info("Ожидаем первого элемента для определения пользователя")
+
     def process_item(self, item, spider):
         try:
             user = item.get('user', 'unknown_user')
@@ -110,19 +75,15 @@ class CatchingMaterialsPipeline:
                 # Создаем безопасное имя файла
                 safe_user = "".join(c if c.isalnum() else "_" for c in user)
                 self.output_file_path = os.path.join(self.data_dir, f"{safe_user}_data.json")
-                self.log_file_path = os.path.join(self.logs_dir, f"{safe_user}_pipeline.log")
-                
-                # Настраиваем логирование для пользователя
-                self._setup_user_logging(user)
                 
                 # Открываем файл для записи данных
                 try:
                     self.file = open(self.output_file_path, 'w', encoding='utf-8')
                     self.file.write('[\n')
                     self.file.flush()
-                    self.logger.info(f"Открыт файл для записи результатов: {self.output_file_path}")
+                    self.temp_logger.info(f"Открыт файл для записи результатов: {self.output_file_path}")
                 except Exception as e:
-                    self.logger.error(f"Ошибка при открытии файла {self.output_file_path}: {str(e)}", exc_info=True)
+                    self.temp_logger.error(f"Ошибка при открытии файла {self.output_file_path}: {str(e)}", exc_info=True)
                     raise
 
             item_dict = {
@@ -147,12 +108,8 @@ class CatchingMaterialsPipeline:
             self.file.flush()
             self.item_count += 1
             
-            # Логируем каждые 10 элементов для примера
-            if self.item_count % 10 == 0:
-                self.logger.debug(f"Обработан элемент {self.item_count}: {item.get('name', 'Без названия')[:50]}...")
-                
         except Exception as e:
-            self.logger.error(f"Ошибка при обработке элемента: {str(e)}", exc_info=True)
+            self.temp_logger.error(f"Ошибка при обработке элемента: {str(e)}", exc_info=True)
             raise
 
         return item
@@ -167,14 +124,17 @@ class CatchingMaterialsPipeline:
                 self.file.flush()
                 if hasattr(self, 'logger'):
                     self.logger.info(f"Файл {self.output_file_path} закрыт. Всего элементов: {self.item_count}")
+                else:
+                    self.temp_logger.info(f"Файл {self.output_file_path} закрыт. Всего элементов: {self.item_count}")
             except Exception as e:
                 if hasattr(self, 'logger'):
                     self.logger.error(f"Ошибка при закрытии файла: {str(e)}", exc_info=True)
+                else:
+                    self.temp_logger.error(f"Ошибка при закрытии файла: {str(e)}", exc_info=True)
             finally:
                 self.file.close()
                 self.file = None
 
     def close_spider(self, spider):
-        if hasattr(self, 'logger'):
-            self.logger.info("Завершение работы паука")
+        self.temp_logger.info("Завершение работы паука")
         self._safe_close_file()

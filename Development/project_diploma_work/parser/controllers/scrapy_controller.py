@@ -10,7 +10,7 @@ scrapy_processes = {}
 
 @scrapy_bp.route('/')
 def hello():
-    return "Hello, this is your Scrapy Flask serveraaasdfsdf!"
+    return "Hello!"
 
 @scrapy_bp.route('/start-scrapy', methods=['POST'])
 def start_scrapy():
