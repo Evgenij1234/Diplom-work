@@ -111,49 +111,71 @@ function Scraping() {
   };
   //Функция для скачаивания данных
   const downloadScraping = async () => {
-    try {
-      const userName = user.username; // Получаем имя пользователя
-      const apiUrl = `${apiDomain}/files/${userName}`;
+    if (isRunning !== true) {
+      try {
+        const userName = user.username; // Получаем имя пользователя
+        const apiUrl = `${apiDomain}/files/${userName}`;
 
-      // 1. Запрашиваем файл с сервера
-      const response = await fetch(apiUrl);
+        // 1. Запрашиваем файл с сервера
+        const response = await fetch(apiUrl);
 
-      if (!response.ok) {
-        throw new Error(`Ошибка сервера: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`Ошибка сервера: ${response.status}`);
+        }
+
+        // 2. Получаем данные как Blob
+        const blob = await response.blob();
+
+        // 3. Создаем временную ссылку
+        const fileUrl = URL.createObjectURL(blob);
+
+        // 4. Создаем скрытую ссылку для скачивания
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = `${userName}_data.json`;
+        link.style.display = "none";
+
+        // 5. Добавляем в документ и эмулируем клик
+        document.body.appendChild(link);
+        link.click();
+
+        // 6. Убираем ссылку после скачивания
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(fileUrl);
+        }, 100);
+
+        console.log("Файл успешно скачан в папку загрузок");
+      } catch (error) {
+        console.error("Ошибка скачивания:", error);
+        alert("Не удалось скачать файл: " + error.message);
       }
-
-      // 2. Получаем данные как Blob
-      const blob = await response.blob();
-
-      // 3. Создаем временную ссылку
-      const fileUrl = URL.createObjectURL(blob);
-
-      // 4. Создаем скрытую ссылку для скачивания
-      const link = document.createElement("a");
-      link.href = fileUrl;
-      link.download = `${userName}_data.json`;
-      link.style.display = "none";
-
-      // 5. Добавляем в документ и эмулируем клик
-      document.body.appendChild(link);
-      link.click();
-
-      // 6. Убираем ссылку после скачивания
-      setTimeout(() => {
-        document.body.removeChild(link);
-        URL.revokeObjectURL(fileUrl);
-      }, 100);
-
-      console.log("Файл успешно скачан в папку загрузок");
-    } catch (error) {
-      console.error("Ошибка скачивания:", error);
-      alert("Не удалось скачать файл: " + error.message);
     }
   };
   //Функция для сохранения данных в базу данных
-  const savetoDbScraping = async () =>{
+  const savetoDbScraping = async () => {
     const userName = user.username;
-  }
+    if (isRunning !== true) {
+      try {
+        const response = await fetch(`${apiDomain}/savedb/user123`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username: userName }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Ошибка: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Успешно сохранено:", data);
+      } catch (error) {
+        console.error("Ошибка при сохранении:", error);
+      }
+    }
+  };
 
   return (
     <div className="Scraping">
