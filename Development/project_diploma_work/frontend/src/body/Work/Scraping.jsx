@@ -194,7 +194,7 @@ function Scraping() {
       <div className="Scraping-left">
         <div className="Scraping-left-box-input">
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">start_url</span>
+            <span className="Scraping-left-input-name">Стартовая ссылка</span>
             <input
               className="Scraping-left-input-input"
               name="start_url"
@@ -205,7 +205,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">allowed_domains</span>
+            <span className="Scraping-left-input-name">Домен</span>
             <input
               className="Scraping-left-input-input"
               name="allowed_domains"
@@ -216,7 +216,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">product_path</span>
+            <span className="Scraping-left-input-name">Идентификатор продукта</span>
             <input
               className="Scraping-left-input-input"
               name="product_path"
@@ -227,7 +227,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">category_selector</span>
+            <span className="Scraping-left-input-name">Категория</span>
             <input
               className="Scraping-left-input-input"
               name="category_selector"
@@ -238,7 +238,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">name_selector</span>
+            <span className="Scraping-left-input-name">Наименование</span>
             <input
               className="Scraping-left-input-input"
               name="name_selector"
@@ -249,7 +249,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">price_selector</span>
+            <span className="Scraping-left-input-name">Цена</span>
             <input
               className="Scraping-left-input-input"
               name="price_selector"
@@ -260,7 +260,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">unit_selector</span>
+            <span className="Scraping-left-input-name">Ед.из</span>
             <input
               className="Scraping-left-input-input"
               name="unit_selector"
@@ -271,7 +271,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">block_selector</span>
+            <span className="Scraping-left-input-name">Блок характеристик</span>
             <input
               className="Scraping-left-input-input"
               name="block_selector"
@@ -282,7 +282,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">key_selector</span>
+            <span className="Scraping-left-input-name">Ключ характеристик</span>
             <input
               className="Scraping-left-input-input"
               name="key_selector"
@@ -293,7 +293,7 @@ function Scraping() {
             />
           </div>
           <div className="Scraping-left-input">
-            <span className="Scraping-left-input-name">value_selector</span>
+            <span className="Scraping-left-input-name">Значение характеристик</span>
             <input
               className="Scraping-left-input-input"
               name="value_selector"

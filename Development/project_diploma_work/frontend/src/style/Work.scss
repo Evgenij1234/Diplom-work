@@ -247,7 +247,7 @@ $color_white: rgba(255, 255, 255, 1);
   padding-top: 10px;
 }
 .Analysis-left-button{
-  width: 90px;
+  width: 120px;
   height: 30px;
   color: $color_white;
   border: 2px solid $color_blue;
@@ -267,6 +267,15 @@ $color_white: rgba(255, 255, 255, 1);
   }
   transition: all 0.3s ease;
 }
+
+
+
+
+
+
+
+
+
 .Analysis-right{
   border-radius: 10px;
   display: flex;
@@ -277,6 +286,7 @@ $color_white: rgba(255, 255, 255, 1);
 .Analysis-right-box{
   padding: 15px;
   font-size: 14px;
+  border-radius: 10px;
   border: 2px solid $color_blue;
   white-space: pre-wrap;
   overflow-y: auto;
@@ -295,9 +305,10 @@ $color_white: rgba(255, 255, 255, 1);
 .Analysis-right-box-data{
  display: grid;
  gap: 10px;
+ color: $color_white;
 }
 .Analysis-right-box-data-text{
-  border: 2px solid $color_blue;
+  border: 2px solid $color_white;
   border-radius: 5px;
   padding: 10px;
 }
@@ -305,27 +316,58 @@ $color_white: rgba(255, 255, 255, 1);
   padding-top: 20px;
   padding-bottom: 10px;
 }
-.Analysis-right-box-button-button{
-  margin-right: 20px;
-  width: 90px;
-  height: 30px;
+.characteristics-container {
+  margin-top: 5px;
+  padding-left: 10px;
+  border-left: 2px solid $color_white;
+}
+
+.characteristic-item {
+  display: flex;
+  margin: 3px 0;
+}
+
+.characteristic-key {
+  font-weight: 500;
+  margin-right: 5px;
   color: $color_white;
-  border: 2px solid $color_blue;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
+}
+
+.characteristic-value {
   color: $color_white;
+}
+
+.characteristic-error {
+  color: #ff4444;
+  font-style: italic;
+}
+.results-list{
+  display: grid;
+  gap: 15px;
+}
+.product-card{
+  border: 1px solid $color_blue;
+  border-radius: 10px;
+  padding: 15px;
   background-color: $color_blue;
+}
+.product-card-link{
+  text-decoration: none;
+  color: $color_white;
+  font-weight: 700;
+  &::after {
+    background-color: $color_grey;
+    transition: width 0.3s ease;
+  }
+  
   &:hover {
-      background-color: $color_white;
-      color: $color_blue;
-      transform: translateY(-2px);
+    transition: width 0.3s ease;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
   }
-  &:active{
-      background-color: $color_blue;
-      color: $color_white;
+  
+  &:active {
+    transform: translateY(0);
   }
-  transition: all 0.3s ease;
 }
 
 .Manual{
@@ -386,4 +428,12 @@ $color_white: rgba(255, 255, 255, 1);
 .Manual-left-box-link-tex-content{
   text-align: justify;
   text-justify: inter-word;
+}
+
+
+.diagram-container{
+  color: $color_blue;
+}
+.close-diagram{
+  font-size: 20pt;
 }
