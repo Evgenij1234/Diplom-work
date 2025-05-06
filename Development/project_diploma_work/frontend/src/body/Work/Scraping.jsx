@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../style/Work.scss";
 import { useDispatch, useSelector } from "react-redux";
+import Notification from "../../Notification";
 import axios from "axios";
 
 function Scraping() {
@@ -26,6 +27,8 @@ function Scraping() {
   const [isRunning, setIsRunning] = useState(false);
   // Добавлено: ссылка на интервал обновления логов
   const [logInterval, setLogInterval] = useState(null);
+  // Состяние для уведомления
+  const [viewNotification, setNotification] = useState(null);
 
   // Добавлено: функция для получения логов
   const fetchLogs = async () => {
@@ -58,27 +61,31 @@ function Scraping() {
 
   // Функция для запуска парсинга
   const startScraping = async () => {
-    try {
-      const response = await axios.post(
-        `${apiDomain}/start-scrapy`,
-        inputDataScraping,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Парсинг запущен:", response.data);
-      setIsRunning(true);
+    if (isRunning !== true) {
+      try {
+        const response = await axios.post(
+          `${apiDomain}/start-scrapy`,
+          inputDataScraping,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Парсинг запущен:", response.data);
+        setNotification(<Notification message={"Парсинг запущен!"} />);
+        setIsRunning(true);
 
-      // Добавлено: запускаем периодическое обновление логов каждые 2 секунды
-      if (logInterval) clearInterval(logInterval);
-      setLogInterval(setInterval(fetchLogs, 2000));
+        // Добавлено: запускаем периодическое обновление логов каждые 2 секунды
+        if (logInterval) clearInterval(logInterval);
+        setLogInterval(setInterval(fetchLogs, 5000));
 
-      // Добавлено: сразу запрашиваем логи
-      await fetchLogs();
-    } catch (error) {
-      console.error("Ошибка при запуске парсинга:", error);
+        // Добавлено: сразу запрашиваем логи
+        await fetchLogs();
+      } catch (error) {
+        console.error("Ошибка при запуске парсинга:", error);
+        setNotification(<Notification message={"Ошибка при запуске парсинга!" + error} />);
+      }
     }
   };
 
@@ -97,6 +104,7 @@ function Scraping() {
         }
       );
       console.log("Парсинг остановлен:", response.data);
+      setNotification(<Notification message={"Парсинг остановлен!"} />);
       setIsRunning(false);
 
       // Добавлено: останавливаем обновление логов
@@ -107,13 +115,14 @@ function Scraping() {
       setLogs(response.data.logs || "");
     } catch (error) {
       console.error("Ошибка при остановке парсинга:", error);
+      setNotification(<Notification message={"Ошибка при остановке парсинга!" + error} />);
     }
   };
   //Функция для скачаивания данных
   const downloadScraping = async () => {
     if (isRunning !== true) {
       try {
-        const userName = user.username; // Получаем имя пользователя
+        const userName = user.username; 
         const apiUrl = `${apiDomain}/files/${userName}`;
 
         // 1. Запрашиваем файл с сервера
@@ -157,7 +166,7 @@ function Scraping() {
     const userName = user.username;
     if (isRunning !== true) {
       try {
-        const response = await fetch(`${apiDomain}/savedb/user123`, {
+        const response = await fetch(`${apiDomain}/savedb/${user.username}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -166,13 +175,16 @@ function Scraping() {
         });
 
         if (!response.ok) {
+          setNotification(<Notification message={`Ошибка: ${response.status}`} />);
           throw new Error(`Ошибка: ${response.status}`);
         }
 
         const data = await response.json();
         console.log("Успешно сохранено:", data);
+        setNotification(<Notification message={"Успешно сохранено:" + data} />);
       } catch (error) {
         console.error("Ошибка при сохранении:", error);
+        setNotification(<Notification message={"Ошибка при сохранении:" + error} />);
       }
     }
   };
@@ -180,7 +192,6 @@ function Scraping() {
   return (
     <div className="Scraping">
       <div className="Scraping-left">
-        {/* Левая часть осталась без изменений */}
         <div className="Scraping-left-box-input">
           <div className="Scraping-left-input">
             <span className="Scraping-left-input-name">start_url</span>
@@ -308,12 +319,12 @@ function Scraping() {
           </button>
         </div>
       </div>
-      {/* Правая часть с логами - добавлен вывод логов и статуса */}
       <div className="Scraping-right">
         <div className="log-status">
           Статус: {isRunning ? "Выполняется" : "Не выполняется"}
         </div>
         <div className="Scraping-right-log">
+          {viewNotification}
           <pre className="log-content">{logs || ""}</pre>
         </div>
       </div>

@@ -618,3 +618,29 @@ margin-bottom: 15px;
   overflow: auto;
   padding: 40px;
 }
+
+
+.Notification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5); // Прозрачный черный фон
+  z-index: 50;
+}
+
+.Notification-text {
+  background-color: $color_blue; // Темный фон уведомления
+  color: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  box-shadow: 0 4px 8px $color_blue;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}

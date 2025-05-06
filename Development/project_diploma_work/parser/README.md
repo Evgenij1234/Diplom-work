@@ -64,6 +64,8 @@ curl http://localhost:5000/logs-file/user123 -o scrapy_logs.log
 
 curl -X POST http://localhost:5000/savedb/user123
 
+Получить данные по параметрам
+
 
 
 
