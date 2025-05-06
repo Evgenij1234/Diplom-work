@@ -109,6 +109,51 @@ function Scraping() {
       console.error("Ошибка при остановке парсинга:", error);
     }
   };
+  //Функция для скачаивания данных
+  const downloadScraping = async () => {
+    try {
+      const userName = user.username; // Получаем имя пользователя
+      const apiUrl = `${apiDomain}/files/${userName}`;
+
+      // 1. Запрашиваем файл с сервера
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        throw new Error(`Ошибка сервера: ${response.status}`);
+      }
+
+      // 2. Получаем данные как Blob
+      const blob = await response.blob();
+
+      // 3. Создаем временную ссылку
+      const fileUrl = URL.createObjectURL(blob);
+
+      // 4. Создаем скрытую ссылку для скачивания
+      const link = document.createElement("a");
+      link.href = fileUrl;
+      link.download = `${userName}_data.json`;
+      link.style.display = "none";
+
+      // 5. Добавляем в документ и эмулируем клик
+      document.body.appendChild(link);
+      link.click();
+
+      // 6. Убираем ссылку после скачивания
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(fileUrl);
+      }, 100);
+
+      console.log("Файл успешно скачан в папку загрузок");
+    } catch (error) {
+      console.error("Ошибка скачивания:", error);
+      alert("Не удалось скачать файл: " + error.message);
+    }
+  };
+  //Функция для сохранения данных в базу данных
+  const savetoDbScraping = async () =>{
+    const userName = user.username;
+  }
 
   return (
     <div className="Scraping">
@@ -233,7 +278,12 @@ function Scraping() {
           <button onClick={stopScraping} className="Scraping-left-button">
             Стоп
           </button>
-          <button className="Scraping-left-button">Сохранить</button>
+          <button onClick={savetoDbScraping} className="Scraping-left-button">
+            Сохранить
+          </button>
+          <button onClick={downloadScraping} className="Scraping-left-button">
+            Скачать
+          </button>
         </div>
       </div>
       {/* Правая часть с логами - добавлен вывод логов и статуса */}

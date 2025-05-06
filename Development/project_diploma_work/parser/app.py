@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from extensions import db
 from controllers.scrapy_controller import scrapy_bp
 from controllers.auth_controller import auth_bp
+from controllers.file_controller import file_bp
+from controllers.savedb_controller import savedb_bp
 
 load_dotenv()
 
@@ -36,6 +38,8 @@ def create_app():
     # Регистрация Blueprints
     app.register_blueprint(scrapy_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(file_bp) 
+    app.register_blueprint(savedb_bp)
     
     return app
 

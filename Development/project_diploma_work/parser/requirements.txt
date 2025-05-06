@@ -18,3 +18,4 @@ werkzeug
 pyjwt 
 flask-jwt-extended
 python-dotenv
+python-dateutil

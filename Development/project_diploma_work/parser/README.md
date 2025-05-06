@@ -60,7 +60,9 @@ curl http://localhost:5000/logs/user123
 Или скачать файл с логами
 curl http://localhost:5000/logs-file/user123 -o scrapy_logs.log
 
+Сохранить базу в БД 
 
+curl -X POST http://localhost:5000/savedb/user123
 
 
 

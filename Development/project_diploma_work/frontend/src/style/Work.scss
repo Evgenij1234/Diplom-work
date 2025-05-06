@@ -129,17 +129,24 @@ $color_white: rgba(255, 255, 255, 1);
 }
 
 .Scraping-right {
-  background-color: $color_blue;
+  //background-color: $color_blue;
   border-radius: 10px;
   color: $color_white;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 30px 1fr;
+  grid-auto-flow: row;
   min-width: 0;
   overflow: hidden;
 }
 
+.log-status{
+  color: $color_blue;
+}
+
 .Scraping-right-log{
     padding: 15px;
+    border-radius: 10px;
+    background-color: $color_blue;
     font-size: 14px;
     white-space: pre-wrap;
     overflow-y: auto;
