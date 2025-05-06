@@ -9,6 +9,7 @@ from controllers.scrapy_controller import scrapy_bp
 from controllers.auth_controller import auth_bp
 from controllers.file_controller import file_bp
 from controllers.savedb_controller import savedb_bp
+from controllers.products_controller import products_bp
 
 load_dotenv()
 
@@ -40,6 +41,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(file_bp) 
     app.register_blueprint(savedb_bp)
+    app.register_blueprint(products_bp)
     
     return app
 
