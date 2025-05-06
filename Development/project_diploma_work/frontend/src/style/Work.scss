@@ -228,6 +228,7 @@ $color_white: rgba(255, 255, 255, 1);
       transform: translateY(-2px);
   }
 }
+
 .Analysis-left-input-input::placeholder{
   color: $color_blue;
   opacity: 0.5;
@@ -369,6 +370,9 @@ $color_white: rgba(255, 255, 255, 1);
     transform: translateY(0);
   }
 }
+.no-results{
+  color: $color_blue;
+}
 
 .Manual{
   display: grid;
@@ -430,10 +434,62 @@ $color_white: rgba(255, 255, 255, 1);
   text-justify: inter-word;
 }
 
-
 .diagram-container{
   color: $color_blue;
+  display: grid;
 }
 .close-diagram{
-  font-size: 20pt;
+  background: none;
+  border: none;
+  font-size: 30pt;
+  text-align: right;
+  padding-right: 20px;
+  color: $color_blue;
+  text-decoration: none;
+  font-weight: 700;
+  &::after {
+    background-color: $color_blue;
+    transition: width 0.3s ease;
+  }
+  
+  &:hover {
+    transition: width 0.3s ease;
+    text-shadow: 0 0 2px $color_blue;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
+
+
+
+
+
+
+.Diagram {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .chart-container {
+    width: 100%;
+    height: 400px;
+    margin: 0 auto;
+    
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+
+  .error-message {
+    color: #ff4444;
+    text-align: center;
+    padding: 20px;
+  }
+}
+
+
+
+

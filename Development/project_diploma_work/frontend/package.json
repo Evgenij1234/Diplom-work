@@ -14,6 +14,7 @@
       "react-scripts": "5.0.1",
       "require": "^0.4.5",
       "web-vitals": "^2.1.4",
+      "chart.js": "^4.4.0",
       "sass": "^1.72.0"
     },
     "scripts": {

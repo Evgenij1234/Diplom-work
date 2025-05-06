@@ -269,12 +269,12 @@ function Analysis() {
                 </div>
               ) : showDiagram ? (
                 <div className="diagram-container">
-                  <div
+                  <button
                     className="close-diagram"
                     onClick={() => setShowDiagram(false)} // Крестик для закрытия
                   >
                     ×
-                  </div>
+                  </button>
                   <Diagram data={results} />
                 </div>
               ) : (
