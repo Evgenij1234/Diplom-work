@@ -27,8 +27,8 @@ services:
       - my-network
     ports:
       - "5000:5000"
-    #volumes: # Закоменить в продакшене
-      #- ./parser:/parser # Закоменить в продакшене
+    volumes: # Закоменить в продакшене
+      - ./parser:/parser # Закоменить в продакшене
     stdin_open: true
     tty: true
 
@@ -40,13 +40,13 @@ services:
       - my-network
     ports:
       - "3306:3306"
-    #volumes:
-      #- mysql_data:/var/lib/mysql # Закоменить в продакшене
-      #- ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Закоменить в продакшене
+    volumes:
+      - mysql_data:/var/lib/mysql # Закоменить в продакшене
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Закоменить в продакшене
       
 networks:
   my-network:
     driver: bridge
 
-#volumes: # Закоменить в продакшене
-  #mysql_data: # Закоменить в продакшене
+volumes: # Закоменить в продакшене
+  mysql_data: # Закоменить в продакшене
