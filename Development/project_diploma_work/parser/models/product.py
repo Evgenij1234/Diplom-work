@@ -6,10 +6,10 @@ class Product(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user = db.Column(db.String(50), db.ForeignKey('users.username'), nullable=False)
-    category = db.Column(db.String(100))
-    name = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.Text)  
+    name = db.Column(db.Text, nullable=False)  
     price = db.Column(db.Numeric(10, 2))
-    unit = db.Column(db.String(10))
+    unit = db.Column(db.Text) 
     characteristics = db.Column(db.JSON)
     link = db.Column(db.Text)
     resource = db.Column(db.Text)
