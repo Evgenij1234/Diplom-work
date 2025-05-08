@@ -22,6 +22,9 @@ class CatchingMaterialsPipeline:
         self.current_user = None
         self.output_file_path = None
         
+        # Обязательные поля, которые должны быть в item
+        self.required_fields = ['user', 'category', 'name', 'price', 'link']
+        
         # Настройка временного логгера до получения информации о пользователе
         self._setup_temp_logging()
         self.temp_logger = logging.getLogger('TempCatchingMaterialsPipeline')
@@ -62,21 +65,43 @@ class CatchingMaterialsPipeline:
             sys.exit(1)
 
     def open_spider(self, spider):
-        # Пока не знаем пользователя, используем временный логгер
         self.temp_logger.info("Ожидаем первого элемента для определения пользователя")
+
+    def _validate_item(self, item):
+        """Проверка наличия обязательных полей и обработка цены"""
+        # Проверяем обязательные поля
+        missing_fields = [field for field in self.required_fields if field not in item or not item[field]]
+        if missing_fields:
+            raise ValueError(f"Отсутствуют обязательные поля: {', '.join(missing_fields)}")
+
+        # Обрабатываем цену
+        if 'price' in item:
+            price = str(item['price']).strip()
+            if price:  # Если цена не пустая
+                # Обрезаем всё после точки или запятой
+                price = price.split('.')[0].split(',')[0]
+                # Удаляем все нецифровые символы (кроме минуса для отрицательных чисел)
+                price = ''.join(c for c in price if c.isdigit() or c == '-')
+                # Если после обработки получили пустую строку - ставим 0
+                item['price'] = price if price else '0'
+            else:
+                item['price'] = '0'
+
+        return item
 
     def process_item(self, item, spider):
         try:
+            # Валидация и обработка полей
+            item = self._validate_item(item)
+            
             user = item.get('user', 'unknown_user')
             
             # Если это первый элемент, инициализируем файлы для пользователя
             if self.current_user is None:
                 self.current_user = user
-                # Создаем безопасное имя файла
                 safe_user = "".join(c if c.isalnum() else "_" for c in user)
                 self.output_file_path = os.path.join(self.data_dir, f"{safe_user}_data.json")
                 
-                # Открываем файл для записи данных
                 try:
                     self.file = open(self.output_file_path, 'w', encoding='utf-8')
                     self.file.write('[\n')
@@ -90,7 +115,7 @@ class CatchingMaterialsPipeline:
                 'user': user,
                 'category': item.get('category', 'Не указана категория'),
                 'name': item.get('name', 'Не указано название'),
-                'price': item.get('price', 'Не указана цена'),
+                'price': item.get('price', '0'),  # После обработки всегда будет значение
                 'unit': item.get('unit', 'Не указана единица измерения'),
                 'characteristics': item.get('characteristics', {'Нет характеристик': 'Нет значения'}),
                 'link': item.get('link', 'Нет ссылки'),
@@ -108,6 +133,9 @@ class CatchingMaterialsPipeline:
             self.file.flush()
             self.item_count += 1
             
+        except ValueError as e:
+            self.temp_logger.error(f"Элемент не сохранен: {str(e)}")
+            raise
         except Exception as e:
             self.temp_logger.error(f"Ошибка при обработке элемента: {str(e)}", exc_info=True)
             raise
