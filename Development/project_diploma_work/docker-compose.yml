@@ -10,12 +10,12 @@ services:
       - my-network
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/frontend 
-      - /frontend/node_modules 
-    environment:
-      - CHOKIDAR_USEPOLLING=true 
-      - WDS_SOCKET_PORT=3000  
+    #volumes: # Закоменить в продакшене
+      #- ./frontend:/frontend  # Закоменить в продакшене
+      #- /frontend/node_modules  # Закоменить в продакшене
+    #environment:  # Закоменить в продакшене
+      #- CHOKIDAR_USEPOLLING=true   # Закоменить в продакшене
+      #- WDS_SOCKET_PORT=3000   # Закоменить в продакшене
     stdin_open: true
     tty: true
 
@@ -27,8 +27,8 @@ services:
       - my-network
     ports:
       - "5000:5000"
-    volumes:
-      - ./parser:/parser
+    volumes: # Закоменить в продакшене
+      - ./parser:/parser # Закоменить в продакшене
     stdin_open: true
     tty: true
 
@@ -41,12 +41,12 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql # Закоменить в продакшене
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Закоменить в продакшене
       
 networks:
   my-network:
     driver: bridge
 
-volumes:
-  mysql_data:
+volumes: # Закоменить в продакшене
+  mysql_data: # Закоменить в продакшене
