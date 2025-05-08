@@ -86,11 +86,16 @@ class CatchingMaterialsPipeline:
                     self.temp_logger.error(f"Ошибка при открытии файла {self.output_file_path}: {str(e)}", exc_info=True)
                     raise
 
+            # Округляем цену до целого числа (отбрасываем копейки)
+            price = item.get('price')
+            if isinstance(price, (int, float)):
+                price = int(price)
+
             item_dict = {
                 'user': user,
                 'category': item.get('category', 'Не указана категория'),
                 'name': item.get('name', 'Не указано название'),
-                'price': item.get('price', 'Не указана цена'),
+                'price': price if price is not None else 'Не указана цена',
                 'unit': item.get('unit', 'Не указана единица измерения'),
                 'characteristics': item.get('characteristics', {'Нет характеристик': 'Нет значения'}),
                 'link': item.get('link', 'Нет ссылки'),
