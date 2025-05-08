@@ -16,14 +16,27 @@ function Diagram({ data }) {
     }
 
     try {
+      // Сортируем данные по дате от меньшего к большему
+      const sortedData = [...data].sort((a, b) => 
+        new Date(a.date_time) - new Date(b.date_time)
+      );
+
+      // Цвета для темы
+      const textColor = 'rgba(0, 51, 102, 1)'; // Белый цвет текст
+      const gridColor = 'rgba(0, 51, 102, 1)'; // Сетка
+      const lineColor = 'rgba(0, 51, 102, 1)'; // Цвет линии графика
+      const fillColor = 'rgba(233, 233, 235, 0.6)'; // Заливка под графиком
+
       // Подготовка данных для диаграммы
       const chartData = {
-        labels: data.map(item => new Date(item.date_time).toLocaleDateString()),
+        labels: sortedData.map(item => new Date(item.date_time).toLocaleDateString()),
         datasets: [{
           label: 'Цена',
-          data: data.map(item => item.price),
-          borderColor: 'rgb(75, 192, 192)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          data: sortedData.map(item => item.price),
+          borderColor: lineColor,
+          backgroundColor: fillColor,
+          borderWidth: 2, // Толщина линии
+          pointBackgroundColor: lineColor, // Цвет точек
           tension: 0.1,
           fill: true
         }]
@@ -35,22 +48,45 @@ function Diagram({ data }) {
         options: {
           responsive: true,
           plugins: {
+            legend: {
+              labels: {
+                color: textColor // Цвет текста легенды
+              }
+            },
             title: {
               display: true,
-              text: 'Динамика цен'
+              text: 'Динамика цен',
+              color: textColor, // Цвет заголовка
+              font: {
+                size: 16
+              }
             },
           },
           scales: {
             x: {
               title: {
                 display: true,
-                text: 'Дата'
+                text: 'Дата',
+                color: textColor // Цвет подписи оси X
+              },
+              ticks: {
+                color: textColor // Цвет значений на оси X
+              },
+              grid: {
+                color: gridColor // Цвет сетки оси X
               }
             },
             y: {
               title: {
                 display: true,
-                text: 'Цена'
+                text: 'Цена',
+                color: textColor // Цвет подписи оси Y
+              },
+              ticks: {
+                color: textColor // Цвет значений на оси Y
+              },
+              grid: {
+                color: gridColor // Цвет сетки оси Y
               }
             }
           }
