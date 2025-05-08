@@ -4,7 +4,7 @@ import os
 from models.product import Product
 from extensions import db
 import logging
-from dateutil import parser  # используем dateutil для гибкого разбора даты
+from dateutil import parser  
 
 savedb_bp = Blueprint('savedb', __name__)
 
@@ -38,6 +38,7 @@ def save_to_db(username):
             return jsonify({'error': 'Неверный формат данных'}), 400
 
         saved_count = 0
+        duplicate_count = 0  # Счетчик пропущенных дубликатов
         errors = []
 
         for i, product_data in enumerate(products_data):
@@ -56,6 +57,7 @@ def save_to_db(username):
 
                 if existing:
                     logger.debug(f"Дубликат найден (по resource/category/name/date_time), пропущен товар {i}: {product_data.get('name')}")
+                    duplicate_count += 1  # Увеличиваем счетчик дубликатов
                     continue
 
                 product = Product(
@@ -86,8 +88,10 @@ def save_to_db(username):
         response = {
             'message': 'Данные сохранены',
             'saved': saved_count,
+            'duplicates': duplicate_count,  # Добавляем количество дубликатов
             'total': len(products_data),
-            'errors': errors if errors else None
+            'errors': errors if errors else None,
+            'duplicates_message': f'Пропущено {duplicate_count} дубликатов (совпадение по resource/category/name/date_time)'  # Пояснение
         }
 
         # Декодируем UTF-8 в ответе перед отправкой
