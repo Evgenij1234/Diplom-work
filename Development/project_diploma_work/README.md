@@ -24,7 +24,7 @@
 
 1. Скачать репозиторий с https://github.com/Evgenij1234/Diplom-work
 2. Установить Docker, Docker Compose, vim, requests
-3. Открыть папку project_diploma_work в терминале
+3. Открыть папку /project_diploma_work в терминале
 4. Выполнить docker-compose up --build 
 5. Ввести в браузере http://localhost:3000/
 6. Выключение docker-compose down 
@@ -36,5 +36,5 @@
 
 # Тесты
 1. Установить requests
-2. Открыть в терминале папку project_diploma_work/test 
+2. Открыть в терминале папку /project_diploma_work/test 
 3. Выполнить python3 api_test.py (вместо python3 может быть py или python)

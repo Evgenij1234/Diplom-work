@@ -1,5 +1,4 @@
 node_modules/
-build/
 *.log
 /backend/db/data/
 venv/
