@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Chart, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import "../../style/Work.scss";
 
-Chart.register(...registerables);
+Chart.register(...registerables, ChartDataLabels);
 
 function Diagram({ data }) {
   const chartRef = useRef(null);
@@ -15,105 +16,138 @@ function Diagram({ data }) {
       return;
     }
 
-    try {
-      // Сортируем данные по дате от меньшего к большему
-      const sortedData = [...data].sort((a, b) => 
-        new Date(a.date_time) - new Date(b.date_time)
-      );
+    const names = new Set(data.map(item => item.name));
+    const categories = new Set(data.map(item => item.category));
+    const resources = new Set(data.map(item => item.resource));
 
-      // Цвета для темы
-      const textColor = 'rgba(0, 51, 102, 1)'; // Белый цвет текст
-      const gridColor = 'rgba(0, 51, 102, 1)'; // Сетка
-      const lineColor = 'rgba(0, 51, 102, 1)'; // Цвет линии графика
-      const fillColor = 'rgba(233, 233, 235, 0.6)'; // Заливка под графиком
+    let title = '';
+    let grouped = {};
 
-      // Подготовка данных для диаграммы
-      const chartData = {
-        labels: sortedData.map(item => new Date(item.date_time).toLocaleDateString()),
-        datasets: [{
-          label: 'Цена',
-          data: sortedData.map(item => item.price),
-          borderColor: lineColor,
-          backgroundColor: fillColor,
-          borderWidth: 2, // Толщина линии
-          pointBackgroundColor: lineColor, // Цвет точек
-          tension: 0.1,
-          fill: true
-        }]
-      };
+    if (names.size === 1 && categories.size === 1 && resources.size === 1) {
+      title = `Диаграмма цен на товар ${[...names][0]}`;
+      grouped = data.reduce((acc, item) => {
+        const date = new Date(item.date_time).toLocaleDateString();
+        acc[date] = item.price;
+        return acc;
+      }, {});
+    } else if (categories.size === 1 && resources.size === 1) {
+      title = `Диаграмма цен на категорию ${[...categories][0]}`;
+      grouped = data.reduce((acc, item) => {
+        const date = new Date(item.date_time).toLocaleDateString();
+        if (!acc[date]) acc[date] = 0;
+        acc[date] += item.price;
+        return acc;
+      }, {});
+    } else if (resources.size === 1) {
+      title = `Диаграмма цен на ресурс ${[...resources][0]}`;
+      grouped = data.reduce((acc, item) => {
+        const date = new Date(item.date_time).toLocaleDateString();
+        if (!acc[date]) acc[date] = 0;
+        acc[date] += item.price;
+        return acc;
+      }, {});
+    } else {
+      setError("Невозможно построить диаграмму: укажите при поиске Ресурс или Ресурс + Котегория или Ресурс + Котегория + Наименование");
+      return;
+    }
 
-      const config = {
-        type: 'line',
-        data: chartData,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              labels: {
-                color: textColor // Цвет текста легенды
-              }
-            },
+    const sortedDates = Object.keys(grouped).sort((a, b) => new Date(a) - new Date(b));
+    const sortedPrices = sortedDates.map(date => grouped[date]);
+
+    const textColor = 'rgba(0, 51, 102, 1)';
+    const gridColor = 'rgba(0, 51, 102, 1)';
+    const lineColor = 'rgba(0, 51, 102, 1)';
+    const fillColor = 'rgba(233, 233, 235, 0.6)';
+
+    const chartData = {
+      labels: sortedDates,
+      datasets: [{
+        label: 'Цена',
+        data: sortedPrices,
+        borderColor: lineColor,
+        backgroundColor: fillColor,
+        borderWidth: 2,
+        pointBackgroundColor: lineColor,
+        tension: 0.1,
+        fill: true,
+        datalabels: {
+          align: 'top',
+          anchor: 'end',
+          color: textColor,
+          font: {
+            weight: 'bold'
+          },
+          formatter: (value) => `${value.toFixed(2)} ₽`
+        }
+      }]
+    };
+
+    const config = {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: textColor
+            }
+          },
+          title: {
+            display: true,
+            text: title,
+            color: textColor,
+            font: {
+              size: 16
+            }
+          },
+          datalabels: {
+            display: true
+          },
+          tooltip: {
+            enabled: true
+          }
+        },
+        scales: {
+          x: {
             title: {
               display: true,
-              text: 'Динамика цен',
-              color: textColor, // Цвет заголовка
-              font: {
-                size: 16
-              }
+              text: 'Дата',
+              color: textColor
             },
+            ticks: {
+              color: textColor
+            },
+            grid: {
+              color: gridColor
+            }
           },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Дата',
-                color: textColor // Цвет подписи оси X
-              },
-              ticks: {
-                color: textColor // Цвет значений на оси X
-              },
-              grid: {
-                color: gridColor // Цвет сетки оси X
-              }
+          y: {
+            title: {
+              display: true,
+              text: 'Цена',
+              color: textColor
             },
-            y: {
-              title: {
-                display: true,
-                text: 'Цена',
-                color: textColor // Цвет подписи оси Y
-              },
-              ticks: {
-                color: textColor // Цвет значений на оси Y
-              },
-              grid: {
-                color: gridColor // Цвет сетки оси Y
-              }
+            ticks: {
+              color: textColor
+            },
+            grid: {
+              color: gridColor
             }
           }
         }
-      };
-
-      // Уничтожаем предыдущий график
-      if (chartInstance) {
-        chartInstance.destroy();
       }
+    };
 
-      // Создаем новый график
-      const ctx = chartRef.current.getContext('2d');
-      const newChartInstance = new Chart(ctx, config);
-      setChartInstance(newChartInstance);
+    if (chartInstance) chartInstance.destroy();
 
-      setError(null);
-    } catch (err) {
-      setError("Ошибка при построении диаграммы");
-      console.error("Chart error:", err);
-    }
+    const ctx = chartRef.current.getContext('2d');
+    const newChart = new Chart(ctx, config);
+    setChartInstance(newChart);
+    setError(null);
 
-    // Очистка при размонтировании
     return () => {
-      if (chartInstance) {
-        chartInstance.destroy();
-      }
+      if (chartInstance) chartInstance.destroy();
     };
   }, [data]);
 

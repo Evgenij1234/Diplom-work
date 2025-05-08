@@ -61,6 +61,14 @@ function Scraping() {
 
   // Функция для запуска парсинга
   const startScraping = async () => {
+    // Проверка: все поля должны быть заполнены
+    const allFieldsFilled = Object.values(inputDataScraping).every((val) => val.trim() !== "");
+  
+    if (!allFieldsFilled) {
+      setNotification(<Notification key={Date.now()} message={"Пожалуйста, заполните все поля!"} />);
+      return;
+    }
+  
     if (isRunning !== true) {
       try {
         const response = await axios.post(
@@ -73,21 +81,19 @@ function Scraping() {
           }
         );
         console.log("Парсинг запущен:", response.data);
-        setNotification(<Notification message={"Парсинг запущен!"} />);
+        setNotification(<Notification key={Date.now()} message={"Парсинг запущен!"} />);
         setIsRunning(true);
-
-        // Добавлено: запускаем периодическое обновление логов каждые 2 секунды
+  
         if (logInterval) clearInterval(logInterval);
         setLogInterval(setInterval(fetchLogs, 5000));
-
-        // Добавлено: сразу запрашиваем логи
         await fetchLogs();
       } catch (error) {
         console.error("Ошибка при запуске парсинга:", error);
-        setNotification(<Notification message={"Ошибка при запуске парсинга!" + error} />);
+        setNotification(<Notification key={Date.now()} message={"Ошибка при запуске парсинга!" + error} />);
       }
     }
   };
+  
 
   // Функция для остановки парсинга
   const stopScraping = async () => {
@@ -104,7 +110,7 @@ function Scraping() {
         }
       );
       console.log("Парсинг остановлен:", response.data);
-      setNotification(<Notification message={"Парсинг остановлен!"} />);
+      setNotification(<Notification key={Date.now()} message={"Парсинг остановлен!"} />);
       setIsRunning(false);
 
       // Добавлено: останавливаем обновление логов
@@ -115,7 +121,7 @@ function Scraping() {
       setLogs(response.data.logs || "");
     } catch (error) {
       console.error("Ошибка при остановке парсинга:", error);
-      setNotification(<Notification message={"Ошибка при остановке парсинга!" + error} />);
+      setNotification(<Notification key={Date.now()} message={"Ошибка при остановке парсинга!" + error} />);
     }
   };
   //Функция для скачаивания данных
@@ -175,16 +181,16 @@ function Scraping() {
         });
 
         if (!response.ok) {
-          setNotification(<Notification message={`Ошибка: ${response.status}`} />);
+          setNotification(<Notification key={Date.now()} message={`Ошибка: ${response.status}`} />);
           throw new Error(`Ошибка: ${response.status}`);
         }
 
         const data = await response.json();
         console.log("Успешно сохранено:", data);
-        setNotification(<Notification message={"Успешно сохранено:" + data} />);
+        setNotification(<Notification key={Date.now()} message={"Успешно сохранено: новых позиций " + data.saved} />);
       } catch (error) {
         console.error("Ошибка при сохранении:", error);
-        setNotification(<Notification message={"Ошибка при сохранении:" + error} />);
+        setNotification(<Notification key={Date.now()} message={"Ошибка при сохранении:" + error} />);
       }
     }
   };
