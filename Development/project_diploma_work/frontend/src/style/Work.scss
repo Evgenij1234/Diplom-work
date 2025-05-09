@@ -70,10 +70,11 @@ $color_white: rgba(255, 255, 255, 1);
 .Scraping-left-input-name{
     font-weight: 600;
     color: $color_blue;
+    min-width: 200px;
 }
 .Scraping-left-input-input {
   width: 100%;
-  max-width: 300px;
+  max-width: 600px;
   justify-self: end;
 
   @media (max-width: 480px) {
@@ -500,5 +501,12 @@ $color_white: rgba(255, 255, 255, 1);
  transition: width 0.3s ease;
     text-shadow: 0 0 2px $color_blue;
 }
+
+
+
+
+
+
+
 
 
