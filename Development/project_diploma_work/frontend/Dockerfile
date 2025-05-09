@@ -15,9 +15,9 @@ EXPOSE 3000
 
 # ===== РАСКОММЕНТИРУЙТЕ НУЖНУЮ СТРОКУ =====
 # Для PROD (использует существующий билд):
-COPY ./build/. ./
-CMD ["npx", "serve", "-s", ".", "-l", "3000"]
+##COPY ./build/. ./
+##CMD ["npx", "serve", "-s", ".", "-l", "3000"]
     
 # Для DEV (исходники + hot-reload):
-#COPY . .
-#CMD ["npm", "start"]
+COPY . .
+CMD ["npm", "start"]

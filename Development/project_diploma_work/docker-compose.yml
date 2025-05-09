@@ -10,12 +10,12 @@ services:
       - my-network
     ports:
       - "3000:3000"
-    #volumes: # Закоменить в продакшене
-      #- ./frontend:/frontend  # Закоменить в продакшене
-      #- /frontend/node_modules  # Закоменить в продакшене
-    #environment:  # Закоменить в продакшене
-      #- CHOKIDAR_USEPOLLING=true   # Закоменить в продакшене
-      #- WDS_SOCKET_PORT=3000   # Закоменить в продакшене
+    volumes: # Закоменить в продакшене
+      - ./frontend:/frontend  # Закоменить в продакшене
+      - /frontend/node_modules  # Закоменить в продакшене
+    environment:  # Закоменить в продакшене
+      - CHOKIDAR_USEPOLLING=true   # Закоменить в продакшене
+      - WDS_SOCKET_PORT=3000   # Закоменить в продакшене
     stdin_open: true
     tty: true
 
