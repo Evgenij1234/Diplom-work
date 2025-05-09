@@ -16,3 +16,12 @@ python3 generate_data.py testuser123_data.json --datetime "2025-5-09 12:00:00"
 8. Парсим 2 сайт
 9. Повторяем с пункат 2 по пункт 6
 И так далее
+
+
+# Пделючение к базе и очистка
+docker-compose exec mysql /bin/bash
+mysql -u appuser -p
+userpass
+USE appdb;
+DELETE FROM products;
+TRUNCATE TABLE products;
