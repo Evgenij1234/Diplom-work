@@ -16,14 +16,14 @@ def update_json_data(json_file, new_datetime=None):
             if new_datetime:
                 item['date_time'] = new_datetime
             
-            # Обновляем цену у всех товаров с рандомным отклонением ±10%
+            # Обновляем цену у всех товаров с рандомным отклонением от +0% до +5%
             if 'price' in item and item['price']:
                 try:
                     current_price = float(item['price'])
-                    # Вычисляем 10% от текущей цены
-                    ten_percent = current_price * 0.1
-                    # Генерируем случайное отклонение в диапазоне ±10%
-                    random_deviation = random.uniform(-ten_percent, ten_percent)
+                    # Вычисляем 5% от текущей цены
+                    five_percent = current_price * 0.05
+                    # Генерируем случайное отклонение от 0 до 5%
+                    random_deviation = random.uniform(0, five_percent)
                     # Новая цена с отклонением
                     new_price = round(current_price + random_deviation, 2)
                     item['price'] = str(new_price)
@@ -33,7 +33,7 @@ def update_json_data(json_file, new_datetime=None):
         
         if new_datetime:
             print(f"✓ Обновлено date_time для {len(data)} объектов")
-        print(f"✓ Обновлено цен для {updated_prices} объектов (±10% от исходной)")
+        print(f"✓ Обновлено цен для {updated_prices} объектов (+0% до +5% от исходной)")
         
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
@@ -56,7 +56,7 @@ def main():
         sys.exit(1)
     
     if args.datetime is None:
-        print("✓ Будут обновлены только цены (±10% от текущих)")
+        print("✓ Будут обновлены только цены (+0% до +5% от текущих)")
     
     update_json_data(args.file, args.datetime)
 

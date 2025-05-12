@@ -1,7 +1,7 @@
-# Обновить дату у всех:
-pythonу script.py data.json --datetime "2023-01-01 12:00:00"
+# Обновить дату у всех и цену:
 пример:
 python3 generate_data.py testuser123_data.json --datetime "2025-5-09 12:00:00"
+
 
 
 
