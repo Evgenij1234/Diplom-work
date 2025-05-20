@@ -1,6 +1,6 @@
 # Обновить дату у всех и цену:
 пример:
-python3 generate_data.py testuser123_data.json --datetime "2025-5-09 12:00:00"
+python3 generate_data.py testuser123_data.json --datetime "2025-1-09 12:00:00"
 
 
 
